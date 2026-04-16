@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cortex Intell — AI Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .full-chat-body { height: calc(100vh - 260px); min-height: 500px; }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar-mount"></aside>
+
+<main class="main-area">
+  <div id="topbar-mount"></div>
+
+  <!-- HEADER -->
+  <section class="flex items-start justify-between gap-4 flex-wrap mb-6 animate-fade-in-up">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+        <span>Ecosystem</span> <i data-lucide="chevron-right" class="w-3 h-3"></i> <span class="text-blue-600 font-semibold">AI Chatbot</span>
+      </div>
+      <h1 class="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
+        Cortex AI
+        <span class="text-xs badge badge-green"><span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Online</span>
+      </h1>
+      <p class="text-slate-500">Your intelligent assistant — powered by Claude Opus 4.6</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn-outline"><i data-lucide="download" class="w-4 h-4"></i> Export</button>
+      <button class="btn-outline"><i data-lucide="settings" class="w-4 h-4"></i> Settings</button>
+      <button class="btn-primary"><i data-lucide="plus" class="w-4 h-4"></i> New Chat</button>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">CONVERSATIONS</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">1,842</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">+24% this month</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">TASKS EXECUTED</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">428</div>
+      <div class="text-xs text-slate-500 font-semibold mt-1">Via AI Agents</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">ACCURACY</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">96.8%</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">+1.2% vs last month</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">AVG RESPONSE</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">1.4s</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">-0.3s improvement</div>
+    </div>
+  </section>
+
+  <!-- SUB-MODULE TABS -->
+  <div class="fos-tabs mb-6" id="cb-tabs" style="display:none;">
+    <button class="fos-tab active" data-tab="chat" onclick="switchCbTab('chat')"><i data-lucide="message-circle" class="w-4 h-4"></i> Conversational Interface</button>
+    <button class="fos-tab" data-tab="query" onclick="switchCbTab('query')"><i data-lucide="search" class="w-4 h-4"></i> Query & Response</button>
+    <button class="fos-tab" data-tab="tasks" onclick="switchCbTab('tasks')"><i data-lucide="bot" class="w-4 h-4"></i> Task Execution</button>
+    <button class="fos-tab" data-tab="context" onclick="switchCbTab('context')"><i data-lucide="brain" class="w-4 h-4"></i> Context Awareness</button>
+    <button class="fos-tab" data-tab="knowledge" onclick="switchCbTab('knowledge')"><i data-lucide="book-open" class="w-4 h-4"></i> Knowledge Retrieval</button>
+    <button class="fos-tab" data-tab="channels" onclick="switchCbTab('channels')"><i data-lucide="smartphone" class="w-4 h-4"></i> Multi-Channel</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 1 — Conversational Interface          -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel active" id="panel-dashboard">
+    <!-- Sub-Module Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover cursor-pointer" onclick="switchCbTab('chat')">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="message-circle" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Chat Interface</div>
+        <div class="text-[10px] text-slate-500 mt-1">Conversational AI</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover cursor-pointer" onclick="switchCbTab('query')">
+        <div class="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="search" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Query Engine</div>
+        <div class="text-[10px] text-slate-500 mt-1">Natural Language Queries</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover cursor-pointer" onclick="switchCbTab('tasks')">
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="bot" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Task Execution</div>
+        <div class="text-[10px] text-slate-500 mt-1">AI Agent Tasks</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover cursor-pointer" onclick="switchCbTab('context')">
+        <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="brain" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Context Awareness</div>
+        <div class="text-[10px] text-slate-500 mt-1">Smart Context Engine</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover cursor-pointer" onclick="switchCbTab('knowledge')">
+        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="book-open" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Knowledge Base</div>
+        <div class="text-[10px] text-slate-500 mt-1">RAG Retrieval</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover cursor-pointer" onclick="switchCbTab('channels')">
+        <div class="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Channels</div>
+        <div class="text-[10px] text-slate-500 mt-1">Multi-Channel Integration</div>
+      </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4 text-blue-600"></i> Conversation Volume</h3>
+        <canvas id="dbConvoChart" height="200"></canvas>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-600"></i> Resolution Rate</h3>
+        <canvas id="dbResolutionChart" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-violet-600"></i> Response Time</h3>
+        <canvas id="dbResponseChart" height="200"></canvas>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="bar-chart-3" class="w-4 h-4 text-orange-600"></i> Channel Usage</h3>
+        <canvas id="dbChannelChart" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- KPI Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">CONVERSATIONS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">2.4K</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+14% this month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">RESOLUTION RATE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">94%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+2% vs last month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">AVG RESPONSE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">1.2s</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">-0.2s improvement</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">CHANNELS ACTIVE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">6</div>
+        <div class="text-xs text-blue-600 font-semibold mt-1">All operational</div>
+      </div>
+    </div>
+
+    <!-- Top Queries + Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="list-ordered" class="w-4 h-4 text-blue-600"></i> Top Queries</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100">
+            <div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">1</span><span class="text-xs font-semibold text-slate-900">Revenue breakdown by module</span></div>
+            <span class="text-xs font-bold text-blue-600">342</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-violet-50/50 border border-violet-100">
+            <div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center text-xs font-bold">2</span><span class="text-xs font-semibold text-slate-900">Pipeline status update</span></div>
+            <span class="text-xs font-bold text-violet-600">287</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">3</span><span class="text-xs font-semibold text-slate-900">Employee attendance report</span></div>
+            <span class="text-xs font-bold text-green-600">214</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-orange-50/50 border border-orange-100">
+            <div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold">4</span><span class="text-xs font-semibold text-slate-900">Overdue invoices summary</span></div>
+            <span class="text-xs font-bold text-orange-600">189</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-sky-50/50 border border-sky-100">
+            <div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-xs font-bold">5</span><span class="text-xs font-semibold text-slate-900">Q3 forecast projections</span></div>
+            <span class="text-xs font-bold text-sky-600">156</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-violet-600"></i> Recent Activity</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-blue-50/30">
+            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="message-circle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Rania started "Q2 Revenue Analysis"</div><div class="text-[10px] text-slate-500">2 minutes ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-green-50/30">
+            <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="check-circle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Task "Weekly sales report" completed</div><div class="text-[10px] text-slate-500">15 minutes ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-violet-50/30">
+            <div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="database" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Knowledge base synced (1,248 docs)</div><div class="text-[10px] text-slate-500">30 minutes ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-orange-50/30">
+            <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><i data-lucide="users" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">38 leads scored and assigned to reps</div><div class="text-[10px] text-slate-500">1 hour ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-sky-50/30">
+            <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center"><i data-lucide="smartphone" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Slack channel integration updated</div><div class="text-[10px] text-slate-500">2 hours ago</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Chatbot Insights Banner -->
+    <div class="glass-blue rounded-2xl p-6 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20"><div class="absolute w-64 h-64 bg-white rounded-full blur-3xl -top-20 -right-20 animate-blob"></div></div>
+      <div class="relative z-10 flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center"><i data-lucide="sparkles" class="w-7 h-7 text-white"></i></div>
+        <div class="flex-1">
+          <div class="font-bold text-white text-lg">AI Chatbot Insights</div>
+          <p class="text-white/80 text-sm mt-1">Cortex AI handled 2,400 conversations this month with a 94% resolution rate. Response times have improved by 43% since November. Top performing channel: Web App (45% of all queries).</p>
+        </div>
+        <button class="bg-white/20 backdrop-blur text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-white/30 transition flex items-center gap-2"><i data-lucide="arrow-right" class="w-4 h-4"></i> View Details</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fos-panel" id="panel-chat">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+      <!-- Chat History Sidebar -->
+      <div class="glass-strong rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold text-slate-900 text-sm">Conversations</h3>
+          <button class="text-blue-600 hover:bg-blue-50 p-1 rounded"><i data-lucide="plus" class="w-4 h-4"></i></button>
+        </div>
+        <div class="relative mb-3">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input placeholder="Search chats..." class="w-full pl-9 pr-3 py-2 text-xs bg-blue-50/50 border border-blue-100 rounded-lg outline-none" />
+        </div>
+        <div class="space-y-1 max-h-[500px] overflow-y-auto">
+          <div class="p-3 bg-grad-blue text-white rounded-xl cursor-pointer"><div class="text-xs font-semibold">Q2 Revenue Analysis</div><div class="text-[11px] opacity-80">Now</div></div>
+          <div class="p-3 hover:bg-blue-50 rounded-xl cursor-pointer"><div class="text-xs font-semibold">Draft proposal for TechCorp</div><div class="text-[11px] text-slate-500">2 hours ago</div></div>
+          <div class="p-3 hover:bg-blue-50 rounded-xl cursor-pointer"><div class="text-xs font-semibold">Employee wellness review</div><div class="text-[11px] text-slate-500">Yesterday</div></div>
+          <div class="p-3 hover:bg-blue-50 rounded-xl cursor-pointer"><div class="text-xs font-semibold">Q1 financial close checklist</div><div class="text-[11px] text-slate-500">2 days ago</div></div>
+          <div class="p-3 hover:bg-blue-50 rounded-xl cursor-pointer"><div class="text-xs font-semibold">Marketing campaign ideas</div><div class="text-[11px] text-slate-500">3 days ago</div></div>
+          <div class="p-3 hover:bg-blue-50 rounded-xl cursor-pointer"><div class="text-xs font-semibold">Competitor analysis</div><div class="text-[11px] text-slate-500">1 week ago</div></div>
+          <div class="p-3 hover:bg-blue-50 rounded-xl cursor-pointer"><div class="text-xs font-semibold">Hiring plan 2026</div><div class="text-[11px] text-slate-500">1 week ago</div></div>
+        </div>
+      </div>
+
+      <!-- Main Chat -->
+      <div class="lg:col-span-2 glass-strong rounded-2xl overflow-hidden flex flex-col">
+        <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-grad-blue flex items-center justify-center animate-pulse-glow"><i data-lucide="sparkles" class="w-5 h-5 text-white"></i></div>
+            <div><div class="font-bold text-slate-900 text-sm">Cortex AI · Q2 Revenue Analysis</div><div class="text-[11px] text-slate-500">Model: Claude Opus 4.6 · Temperature 0.3</div></div>
+          </div>
+          <div class="flex gap-1">
+            <button class="p-2 hover:bg-white rounded-lg"><i data-lucide="share-2" class="w-4 h-4 text-slate-500"></i></button>
+            <button class="p-2 hover:bg-white rounded-lg"><i data-lucide="bookmark" class="w-4 h-4 text-slate-500"></i></button>
+          </div>
+        </div>
+
+        <div class="full-chat-body flex-1 overflow-y-auto p-5 space-y-4" id="main-chat">
+          <!-- Bot greeting -->
+          <div class="flex gap-3">
+            <div class="w-9 h-9 rounded-xl bg-grad-blue flex items-center justify-center flex-shrink-0"><i data-lucide="sparkles" class="w-4 h-4 text-white"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm text-slate-900 mb-1">Cortex AI</div>
+              <div class="glass rounded-2xl rounded-tl-sm p-4 inline-block max-w-[85%]">
+                <p class="text-sm text-slate-700">Hi Rania! I'm your Cortex AI assistant. I can help you with revenue analysis, forecasts, pipeline, HR, and everything across your ecosystem. What would you like to explore?</p>
+              </div>
+            </div>
+          </div>
+          <!-- User -->
+          <div class="flex gap-3 justify-end">
+            <div class="flex-1 flex justify-end"><div class="bg-grad-blue text-white rounded-2xl rounded-tr-sm p-4 max-w-[85%]"><p class="text-sm">Show me Q2 revenue breakdown by module and identify the top 3 growth drivers.</p></div></div>
+            <div class="avatar">RJ</div>
+          </div>
+          <!-- Bot response with chart -->
+          <div class="flex gap-3">
+            <div class="w-9 h-9 rounded-xl bg-grad-blue flex items-center justify-center flex-shrink-0"><i data-lucide="sparkles" class="w-4 h-4 text-white"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm text-slate-900 mb-1">Cortex AI</div>
+              <div class="glass rounded-2xl rounded-tl-sm p-4 max-w-[85%]">
+                <p class="text-sm text-slate-700 mb-3">Here's your Q2 revenue breakdown, Rania. Total so far: <b>$3.92M</b> (+12.5% vs Q1).</p>
+                <div class="bg-white/60 rounded-xl p-3 mb-3">
+                  <div class="text-xs font-bold text-slate-700 mb-2">Revenue by Module</div>
+                  <div class="space-y-2">
+                    <div><div class="flex justify-between text-xs mb-1"><span>CRM 360</span><span class="font-bold">$1.48M</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:92%"></div></div></div>
+                    <div><div class="flex justify-between text-xs mb-1"><span>Finance OS</span><span class="font-bold">$980K</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:64%"></div></div></div>
+                    <div><div class="flex justify-between text-xs mb-1"><span>Growth Engine</span><span class="font-bold">$720K</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:48%"></div></div></div>
+                    <div><div class="flex justify-between text-xs mb-1"><span>Projects</span><span class="font-bold">$520K</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:34%"></div></div></div>
+                    <div><div class="flex justify-between text-xs mb-1"><span>Other</span><span class="font-bold">$220K</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:14%"></div></div></div>
+                  </div>
+                </div>
+                <p class="text-sm text-slate-700 font-semibold mb-1">Top 3 Growth Drivers:</p>
+                <ol class="text-sm text-slate-700 list-decimal list-inside space-y-1">
+                  <li><b>Enterprise expansion</b> — TechCorp NSW & 4 similar accounts (+$420K)</li>
+                  <li><b>CRM 360 upsells</b> — 38 customers upgraded tiers (+$280K)</li>
+                  <li><b>New market entry</b> — APAC launched April (+$180K)</li>
+                </ol>
+                <div class="flex gap-2 mt-3 pt-3 border-t border-slate-200/50">
+                  <button class="text-xs text-blue-600 hover:underline flex items-center gap-1"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Helpful</button>
+                  <button class="text-xs text-slate-500 hover:underline flex items-center gap-1"><i data-lucide="copy" class="w-3 h-3"></i> Copy</button>
+                  <button class="text-xs text-slate-500 hover:underline flex items-center gap-1"><i data-lucide="share-2" class="w-3 h-3"></i> Share</button>
+                  <button class="text-xs text-slate-500 hover:underline flex items-center gap-1"><i data-lucide="refresh-cw" class="w-3 h-3"></i> Regenerate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- User 2 -->
+          <div class="flex gap-3 justify-end">
+            <div class="flex-1 flex justify-end"><div class="bg-grad-blue text-white rounded-2xl rounded-tr-sm p-4 max-w-[85%]"><p class="text-sm">What could slow down our growth in Q3?</p></div></div>
+            <div class="avatar">RJ</div>
+          </div>
+          <!-- Bot risk response -->
+          <div class="flex gap-3">
+            <div class="w-9 h-9 rounded-xl bg-grad-blue flex items-center justify-center flex-shrink-0"><i data-lucide="sparkles" class="w-4 h-4 text-white"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm text-slate-900 mb-1">Cortex AI</div>
+              <div class="glass rounded-2xl rounded-tl-sm p-4 max-w-[85%]">
+                <p class="text-sm text-slate-700 mb-3">I've identified 3 risks that could impact Q3 growth:</p>
+                <div class="space-y-2">
+                  <div class="p-3 rounded-xl bg-red-50 border border-red-200"><div class="flex items-center gap-2 mb-1"><i data-lucide="alert-triangle" class="w-4 h-4 text-red-600"></i><span class="text-xs font-bold text-red-700">HIGH · 78%</span></div><div class="text-sm font-semibold">Churn risk: 5 enterprise accounts</div><div class="text-xs text-slate-600">Potential impact: -$340K</div></div>
+                  <div class="p-3 rounded-xl bg-orange-50 border border-orange-200"><div class="flex items-center gap-2 mb-1"><i data-lucide="alert-circle" class="w-4 h-4 text-orange-600"></i><span class="text-xs font-bold text-orange-700">MEDIUM · 52%</span></div><div class="text-sm font-semibold">Engineering bottleneck</div><div class="text-xs text-slate-600">May delay Mobile App v2 by 3 weeks</div></div>
+                  <div class="p-3 rounded-xl bg-yellow-50 border border-yellow-200"><div class="flex items-center gap-2 mb-1"><i data-lucide="info" class="w-4 h-4 text-yellow-600"></i><span class="text-xs font-bold text-yellow-700">MEDIUM · 45%</span></div><div class="text-sm font-semibold">Marketing CAC trending up 18%</div><div class="text-xs text-slate-600">LinkedIn campaigns underperforming</div></div>
+                </div>
+                <p class="text-sm text-slate-700 mt-3">Want me to draft a mitigation plan for any of these?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat input -->
+        <div class="p-4 border-t border-slate-100 bg-white">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="chip" onclick="addMsg('Draft mitigation for churn risk')">Draft mitigation for churn risk</span>
+            <span class="chip" onclick="addMsg('Show me CRM pipeline')">Show CRM pipeline</span>
+            <span class="chip" onclick="addMsg('Who should I hire first?')">Who to hire first?</span>
+          </div>
+          <div class="flex gap-2 items-center bg-blue-50/50 border border-blue-100 rounded-2xl p-2">
+            <button class="p-2 hover:bg-white rounded-lg"><i data-lucide="paperclip" class="w-4 h-4 text-slate-500"></i></button>
+            <button class="p-2 hover:bg-white rounded-lg"><i data-lucide="image" class="w-4 h-4 text-slate-500"></i></button>
+            <input id="mainInput" type="text" placeholder="Ask Cortex AI anything..." class="flex-1 bg-transparent outline-none text-sm px-2" onkeydown="if(event.key==='Enter'){addMsg(this.value);this.value=''}" />
+            <button class="p-2 hover:bg-white rounded-lg voice-btn" onclick="startVoice()"><i data-lucide="mic" class="w-4 h-4 text-blue-600"></i></button>
+            <button class="btn-primary text-xs" onclick="addMsg(document.getElementById('mainInput').value);document.getElementById('mainInput').value=''"><i data-lucide="send" class="w-4 h-4"></i></button>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-2 text-center">Cortex AI can make mistakes. Verify important information.</div>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="space-y-5">
+        <div class="glass-strong rounded-2xl p-5">
+          <h3 class="font-bold text-slate-900 text-sm mb-3">Quick Actions</h3>
+          <div class="space-y-2">
+            <button class="w-full text-left p-3 bg-blue-50 hover:bg-blue-100 rounded-xl transition"><div class="text-xs font-semibold">Generate weekly report</div><div class="text-[11px] text-slate-500">All modules summary</div></button>
+            <button class="w-full text-left p-3 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition"><div class="text-xs font-semibold">Draft outreach emails</div><div class="text-[11px] text-slate-500">Top 10 leads</div></button>
+            <button class="w-full text-left p-3 bg-violet-50 hover:bg-violet-100 rounded-xl transition"><div class="text-xs font-semibold">Q3 forecast</div><div class="text-[11px] text-slate-500">With scenarios</div></button>
+            <button class="w-full text-left p-3 bg-sky-50 hover:bg-sky-100 rounded-xl transition"><div class="text-xs font-semibold">Set quarterly goals</div><div class="text-[11px] text-slate-500">OKR framework</div></button>
+          </div>
+        </div>
+        <div class="glass-strong rounded-2xl p-5">
+          <h3 class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2"><i data-lucide="mic" class="w-4 h-4 text-blue-600"></i> Voice Mode</h3>
+          <button class="w-full bg-grad-blue text-white rounded-xl p-4 hover:scale-105 transition" onclick="startVoice()">
+            <div class="flex items-center justify-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center animate-pulse"><i data-lucide="mic" class="w-5 h-5"></i></div>
+              <div class="text-left"><div class="text-sm font-bold">Hold to speak</div><div class="text-[11px] opacity-80">or click to start</div></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 2 — Query & Response Engine           -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-query">
+    <!-- Natural Language Query Bar -->
+    <div class="glass-blue rounded-2xl p-5 mb-5 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20"><div class="absolute w-48 h-48 bg-white rounded-full blur-3xl -top-20 -right-20 animate-blob"></div></div>
+      <div class="relative z-10">
+        <div class="font-bold text-white mb-3 flex items-center gap-2"><i data-lucide="search" class="w-5 h-5"></i> Natural Language Query Engine</div>
+        <div class="flex gap-2 items-center bg-white/20 backdrop-blur rounded-xl p-2">
+          <input type="text" placeholder="Ask in plain English: 'Show revenue by region for Q2' or 'Which deals are at risk?'" class="flex-1 bg-transparent text-white placeholder-white/60 outline-none text-sm px-3" />
+          <button class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold text-sm">Run Query</button>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <span class="text-[10px] text-white/70 px-2 py-1 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20">Revenue by module</span>
+          <span class="text-[10px] text-white/70 px-2 py-1 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20">Top 10 deals this quarter</span>
+          <span class="text-[10px] text-white/70 px-2 py-1 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20">Overdue invoices > $10K</span>
+          <span class="text-[10px] text-white/70 px-2 py-1 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20">Employee attrition trend</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Query History + Response Config -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> Recent Queries</h3>
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-blue-50/50 border border-blue-100 cursor-pointer hover:shadow-md transition">
+            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="bar-chart-3" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">"Revenue by module for Q2"</div><div class="text-[10px] text-slate-500">Table + Chart · 2.1s · 5 rows</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Rerun</button>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-violet-50/50 border border-violet-100 cursor-pointer hover:shadow-md transition">
+            <div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="users" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">"Which leads haven't been contacted in 14 days?"</div><div class="text-[10px] text-slate-500">Table · 1.8s · 32 rows</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Rerun</button>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-green-50/50 border border-green-100 cursor-pointer hover:shadow-md transition">
+            <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">"Compare this month's cash flow vs last month"</div><div class="text-[10px] text-slate-500">Chart · 2.4s · Comparison</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Rerun</button>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-orange-50/50 border border-orange-100 cursor-pointer hover:shadow-md transition">
+            <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">"Show all overdue invoices over $10,000"</div><div class="text-[10px] text-slate-500">Table · 1.2s · 8 rows</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Rerun</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="sliders" class="w-4 h-4 text-violet-600"></i> Response Configuration</h3>
+        <div class="space-y-4">
+          <div><div class="text-xs font-bold text-slate-700 mb-2">Default Response Format</div>
+            <div class="flex gap-2">
+              <button class="px-3 py-2 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">Auto</button>
+              <button class="px-3 py-2 rounded-lg bg-slate-50 text-slate-600 text-xs font-semibold hover:bg-slate-100">Table</button>
+              <button class="px-3 py-2 rounded-lg bg-slate-50 text-slate-600 text-xs font-semibold hover:bg-slate-100">Chart</button>
+              <button class="px-3 py-2 rounded-lg bg-slate-50 text-slate-600 text-xs font-semibold hover:bg-slate-100">Summary</button>
+              <button class="px-3 py-2 rounded-lg bg-slate-50 text-slate-600 text-xs font-semibold hover:bg-slate-100">Raw SQL</button>
+            </div>
+          </div>
+          <div><div class="text-xs font-bold text-slate-700 mb-2">AI Model</div>
+            <select class="text-xs border border-slate-200 rounded-lg px-3 py-2 bg-white w-full"><option>Claude Opus 4.6 (Most Capable)</option><option>Claude Sonnet 4.6 (Balanced)</option><option>Claude Haiku 4.5 (Fastest)</option></select>
+          </div>
+          <div><div class="text-xs font-bold text-slate-700 mb-2">Temperature</div>
+            <div class="flex items-center gap-3"><input type="range" min="0" max="10" value="3" class="flex-1"><span class="text-xs font-bold text-slate-600">0.3</span></div>
+          </div>
+          <div><div class="text-xs font-bold text-slate-700 mb-2">Max Results</div>
+            <select class="text-xs border border-slate-200 rounded-lg px-3 py-2 bg-white w-full"><option>100 rows</option><option>500 rows</option><option>1,000 rows</option><option>Unlimited</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Query Performance -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4">Query Performance (7 Days)</h3>
+      <canvas id="queryPerfChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 3 — Task Execution (via Agents)       -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-tasks">
+    <!-- Task Command Bar -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-grad-blue flex items-center justify-center"><i data-lucide="bot" class="w-5 h-5 text-white"></i></div>
+        <div><div class="font-bold text-slate-900">Task Execution via AI Agents</div><div class="text-xs text-slate-500">Give a command in natural language — Cortex AI will delegate to the right agent</div></div>
+      </div>
+      <div class="flex gap-2 items-center bg-blue-50/50 border border-blue-100 rounded-xl p-2">
+        <input type="text" placeholder="e.g. 'Send a follow-up email to all leads who opened our proposal'" class="flex-1 bg-transparent outline-none text-sm px-3" />
+        <button class="btn-primary text-xs"><i data-lucide="play" class="w-3 h-3"></i> Execute</button>
+      </div>
+    </div>
+
+    <!-- Running / Recent Tasks -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-blue-600"></i> Active & Recent Tasks</h3>
+        <select class="text-xs border border-slate-200 rounded-lg px-3 py-2 bg-white"><option>All Tasks</option><option>Running</option><option>Completed</option><option>Failed</option></select>
+      </div>
+      <div class="space-y-3">
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-blue-50/50 border border-blue-200">
+          <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center animate-spin-slow"><i data-lucide="loader" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-900">"Generate and email weekly sales report to the team"</div>
+            <div class="text-xs text-slate-500 mt-1">Agent: <span class="font-semibold text-blue-600">Content Writer</span> + <span class="font-semibold text-violet-600">Outreach Assistant</span></div>
+            <div class="w-full bg-blue-100 rounded-full h-1.5 mt-2"><div class="bg-blue-500 h-1.5 rounded-full animate-pulse" style="width:65%"></div></div>
+          </div>
+          <div class="text-right"><div class="text-xs font-bold text-blue-600">Running</div><div class="text-[10px] text-slate-400">Started 45s ago</div></div>
+        </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-green-50/50 border border-green-100">
+          <div class="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-900">"Score all new leads from yesterday and assign to reps"</div>
+            <div class="text-xs text-slate-500 mt-1">Agent: <span class="font-semibold text-blue-600">Lead Hunter</span> · 38 leads processed</div>
+          </div>
+          <div class="text-right"><div class="text-xs font-bold text-green-600">Completed</div><div class="text-[10px] text-slate-400">2 min ago · 4.2s</div></div>
+        </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-green-50/50 border border-green-100">
+          <div class="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-900">"Reconcile all Stripe payments with invoices from today"</div>
+            <div class="text-xs text-slate-500 mt-1">Agent: <span class="font-semibold text-green-600">Finance Guardian</span> · 142 records matched</div>
+          </div>
+          <div class="text-right"><div class="text-xs font-bold text-green-600">Completed</div><div class="text-[10px] text-slate-400">15 min ago · 12.6s</div></div>
+        </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-red-50/50 border border-red-100">
+          <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><i data-lucide="x-circle" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-900">"Post social media update about our Q1 results"</div>
+            <div class="text-xs text-slate-500 mt-1">Agent: <span class="font-semibold text-violet-600">Content Writer</span> · Error: LinkedIn API rate limit</div>
+          </div>
+          <div class="text-right"><div class="text-xs font-bold text-red-600">Failed</div><div class="text-[10px] text-slate-400">1h ago · <button class="text-blue-600 font-semibold">Retry</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Mapping -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="network" class="w-4 h-4 text-violet-600"></i> Task-to-Agent Mapping</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="p-3 rounded-xl bg-blue-50/50 border border-blue-100"><div class="text-xs font-bold text-slate-900 mb-1">Email & Outreach</div><div class="text-[10px] text-slate-500">Outreach Assistant, Content Writer</div></div>
+        <div class="p-3 rounded-xl bg-violet-50/50 border border-violet-100"><div class="text-xs font-bold text-slate-900 mb-1">Lead Management</div><div class="text-[10px] text-slate-500">Lead Hunter, Support Triage</div></div>
+        <div class="p-3 rounded-xl bg-green-50/50 border border-green-100"><div class="text-xs font-bold text-slate-900 mb-1">Finance Tasks</div><div class="text-[10px] text-slate-500">Finance Guardian</div></div>
+        <div class="p-3 rounded-xl bg-orange-50/50 border border-orange-100"><div class="text-xs font-bold text-slate-900 mb-1">Data Operations</div><div class="text-[10px] text-slate-500">Data Janitor</div></div>
+        <div class="p-3 rounded-xl bg-sky-50/50 border border-sky-100"><div class="text-xs font-bold text-slate-900 mb-1">Meeting & Calendar</div><div class="text-[10px] text-slate-500">Meeting Scribe</div></div>
+        <div class="p-3 rounded-xl bg-pink-50/50 border border-pink-100"><div class="text-xs font-bold text-slate-900 mb-1">Reports & Content</div><div class="text-[10px] text-slate-500">Content Writer</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 4 — Context Awareness                 -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-context">
+    <!-- Active Context -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="brain" class="w-4 h-4 text-blue-600"></i> Active Context Window</h3>
+        <span class="badge badge-green">Real-Time</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- User Context -->
+        <div class="p-4 rounded-xl bg-blue-50 border border-blue-100">
+          <div class="text-[10px] font-bold text-blue-600 tracking-wider mb-2">USER CONTEXT</div>
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between"><span class="text-slate-500">User</span><span class="font-semibold">Rania Jamil</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Role</span><span class="font-semibold">CEO</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Department</span><span class="font-semibold">Executive</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Access Level</span><span class="font-semibold text-green-600">Full Access</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Timezone</span><span class="font-semibold">GMT+4</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Last Active</span><span class="font-semibold">Now</span></div>
+          </div>
+        </div>
+        <!-- Module Context -->
+        <div class="p-4 rounded-xl bg-violet-50 border border-violet-100">
+          <div class="text-[10px] font-bold text-violet-600 tracking-wider mb-2">MODULE CONTEXT</div>
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between"><span class="text-slate-500">Current Module</span><span class="font-semibold">AI Chatbot</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Previous Module</span><span class="font-semibold">Finance OS</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Open Conversation</span><span class="font-semibold">Q2 Revenue</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Messages Today</span><span class="font-semibold">24</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Tasks Triggered</span><span class="font-semibold">6</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Session Duration</span><span class="font-semibold">42 min</span></div>
+          </div>
+        </div>
+        <!-- Data Context -->
+        <div class="p-4 rounded-xl bg-green-50 border border-green-100">
+          <div class="text-[10px] font-bold text-green-600 tracking-wider mb-2">DATA CONTEXT</div>
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between"><span class="text-slate-500">Data Range</span><span class="font-semibold">Q2 2026</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Sources Active</span><span class="font-semibold">4 modules</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Records Scanned</span><span class="font-semibold">142K</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Last Refresh</span><span class="font-semibold">2 min ago</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Cache Status</span><span class="font-semibold text-green-600">Warm</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Data Quality</span><span class="font-semibold">94/100</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Context Sources -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="database" class="w-4 h-4 text-blue-600"></i> Connected Data Sources</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-blue-50 border border-blue-100"><div class="w-2 h-2 rounded-full bg-green-500"></div><div class="flex-1"><div class="text-xs font-bold">CRM 360</div><div class="text-[10px] text-slate-500">Live</div></div><span class="badge badge-green">On</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-green-50 border border-green-100"><div class="w-2 h-2 rounded-full bg-green-500"></div><div class="flex-1"><div class="text-xs font-bold">Finance OS</div><div class="text-[10px] text-slate-500">Live</div></div><span class="badge badge-green">On</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-violet-50 border border-violet-100"><div class="w-2 h-2 rounded-full bg-green-500"></div><div class="flex-1"><div class="text-xs font-bold">HRM</div><div class="text-[10px] text-slate-500">Live</div></div><span class="badge badge-green">On</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-orange-50 border border-orange-100"><div class="w-2 h-2 rounded-full bg-green-500"></div><div class="flex-1"><div class="text-xs font-bold">Projects</div><div class="text-[10px] text-slate-500">Live</div></div><span class="badge badge-green">On</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-sky-50 border border-sky-100"><div class="w-2 h-2 rounded-full bg-green-500"></div><div class="flex-1"><div class="text-xs font-bold">Growth Engine</div><div class="text-[10px] text-slate-500">Live</div></div><span class="badge badge-green">On</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-pink-50 border border-pink-100"><div class="w-2 h-2 rounded-full bg-green-500"></div><div class="flex-1"><div class="text-xs font-bold">Brain AI</div><div class="text-[10px] text-slate-500">Live</div></div><span class="badge badge-green">On</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-yellow-50 border border-yellow-100"><div class="w-2 h-2 rounded-full bg-yellow-500"></div><div class="flex-1"><div class="text-xs font-bold">External APIs</div><div class="text-[10px] text-slate-500">Cached</div></div><span class="badge badge-yellow">Cached</span></div>
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100"><div class="w-2 h-2 rounded-full bg-slate-400"></div><div class="flex-1"><div class="text-xs font-bold">Documents</div><div class="text-[10px] text-slate-500">Indexed</div></div><span class="badge badge-blue">Indexed</span></div>
+      </div>
+    </div>
+
+    <!-- Personalization -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="user-cog" class="w-4 h-4 text-violet-600"></i> Personalization Settings</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100"><div><div class="text-xs font-bold text-slate-900">Remember conversation context</div><div class="text-[10px] text-slate-500">Carry context across sessions</div></div><span class="badge badge-green">On</span></div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-violet-50/50 border border-violet-100"><div><div class="text-xs font-bold text-slate-900">Auto-detect module context</div><div class="text-[10px] text-slate-500">Infer relevant data from navigation</div></div><span class="badge badge-green">On</span></div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100"><div><div class="text-xs font-bold text-slate-900">Proactive suggestions</div><div class="text-[10px] text-slate-500">AI suggests actions based on patterns</div></div><span class="badge badge-green">On</span></div>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-orange-50/50 border border-orange-100"><div><div class="text-xs font-bold text-slate-900">Role-based responses</div><div class="text-[10px] text-slate-500">Tailor detail level to user role</div></div><span class="badge badge-green">On</span></div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-sky-50/50 border border-sky-100"><div><div class="text-xs font-bold text-slate-900">Data permission filtering</div><div class="text-[10px] text-slate-500">Only show data user is authorized to see</div></div><span class="badge badge-green">On</span></div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-red-50/50 border border-red-100"><div><div class="text-xs font-bold text-slate-900">Store query history</div><div class="text-[10px] text-slate-500">Save past queries for quick access</div></div><span class="badge badge-yellow">30 days</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 5 — Knowledge Retrieval               -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-knowledge">
+    <!-- Knowledge Base Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="file-text" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Documents</div>
+        <div class="text-xl font-extrabold text-blue-600 mt-1">2,481</div>
+        <div class="text-[10px] text-slate-500">Indexed & searchable</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="database" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Vector Embeddings</div>
+        <div class="text-xl font-extrabold text-violet-600 mt-1">1.2M</div>
+        <div class="text-[10px] text-slate-500">Semantic chunks</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="search" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Retrieval Accuracy</div>
+        <div class="text-xl font-extrabold text-green-600 mt-1">94.2%</div>
+        <div class="text-[10px] text-slate-500">Top-5 relevance</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="refresh-cw" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Last Sync</div>
+        <div class="text-xl font-extrabold text-sky-600 mt-1">12m</div>
+        <div class="text-[10px] text-slate-500">ago</div>
+      </div>
+    </div>
+
+    <!-- Knowledge Sources -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="library" class="w-4 h-4 text-blue-600"></i> Knowledge Sources</h3>
+        <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> Add Source</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-[10px] font-bold text-slate-500 tracking-wider border-b border-slate-100">
+            <th class="pb-3">SOURCE</th><th class="pb-3">TYPE</th><th class="pb-3">DOCUMENTS</th><th class="pb-3">LAST SYNCED</th><th class="pb-3">STATUS</th>
+          </tr></thead>
+          <tbody class="divide-y divide-slate-50">
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-blue-500"></i> Company Policies & SOPs</td><td class="py-3"><span class="badge badge-blue">PDF</span></td><td class="py-3 font-bold">342</td><td class="py-3 text-slate-500">1h ago</td><td class="py-3"><span class="badge badge-green">Synced</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-violet-500"></i> Confluence Wiki</td><td class="py-3"><span class="badge badge-purple">Web</span></td><td class="py-3 font-bold">1,248</td><td class="py-3 text-slate-500">30m ago</td><td class="py-3"><span class="badge badge-green">Synced</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-green-500"></i> Email Templates</td><td class="py-3"><span class="badge badge-green">HTML</span></td><td class="py-3 font-bold">86</td><td class="py-3 text-slate-500">2h ago</td><td class="py-3"><span class="badge badge-green">Synced</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="video" class="w-4 h-4 text-orange-500"></i> Training Videos</td><td class="py-3"><span class="badge badge-yellow">Video</span></td><td class="py-3 font-bold">48</td><td class="py-3 text-slate-500">1d ago</td><td class="py-3"><span class="badge badge-green">Synced</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="table" class="w-4 h-4 text-sky-500"></i> Product Catalog</td><td class="py-3"><span class="badge badge-blue">CSV</span></td><td class="py-3 font-bold">420</td><td class="py-3 text-slate-500">6h ago</td><td class="py-3"><span class="badge badge-green">Synced</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="message-square" class="w-4 h-4 text-pink-500"></i> Slack Conversations</td><td class="py-3"><span class="badge badge-red">Chat</span></td><td class="py-3 font-bold">337</td><td class="py-3 text-slate-500">12m ago</td><td class="py-3"><span class="badge badge-yellow">Partial</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RAG Pipeline -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="workflow" class="w-4 h-4 text-violet-600"></i> RAG Pipeline Architecture</h3>
+      <div class="relative h-32 bg-gradient-to-r from-blue-50 via-violet-50 to-green-50 rounded-xl p-4 border border-slate-100 overflow-hidden">
+        <div class="flex items-center justify-between h-full">
+          <div class="text-center"><div class="w-14 h-14 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-1"><i data-lucide="message-circle" class="w-6 h-6"></i></div><div class="text-[10px] font-bold text-slate-700">User Query</div></div>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-slate-300"></i>
+          <div class="text-center"><div class="w-14 h-14 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-1"><i data-lucide="search" class="w-6 h-6"></i></div><div class="text-[10px] font-bold text-slate-700">Vector Search</div></div>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-slate-300"></i>
+          <div class="text-center"><div class="w-14 h-14 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-1"><i data-lucide="filter" class="w-6 h-6"></i></div><div class="text-[10px] font-bold text-slate-700">Re-Rank</div></div>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-slate-300"></i>
+          <div class="text-center"><div class="w-14 h-14 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-1"><i data-lucide="brain" class="w-6 h-6"></i></div><div class="text-[10px] font-bold text-slate-700">LLM Context</div></div>
+          <i data-lucide="arrow-right" class="w-5 h-5 text-slate-300"></i>
+          <div class="text-center"><div class="w-14 h-14 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-1"><i data-lucide="message-square" class="w-6 h-6"></i></div><div class="text-[10px] font-bold text-slate-700">Response</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 6 — Multi-Channel Integration         -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-channels">
+    <!-- Channel Overview -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="globe" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Web App</div>
+        <div class="text-[10px] text-green-600 font-semibold mt-1">Active</div>
+        <div class="text-xs font-bold text-slate-900 mt-1">842</div>
+        <div class="text-[10px] text-slate-500">sessions/day</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Mobile App</div>
+        <div class="text-[10px] text-green-600 font-semibold mt-1">Active</div>
+        <div class="text-xs font-bold text-slate-900 mt-1">428</div>
+        <div class="text-[10px] text-slate-500">sessions/day</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="hash" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Slack</div>
+        <div class="text-[10px] text-green-600 font-semibold mt-1">Active</div>
+        <div class="text-xs font-bold text-slate-900 mt-1">312</div>
+        <div class="text-[10px] text-slate-500">queries/day</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="message-square" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">MS Teams</div>
+        <div class="text-[10px] text-green-600 font-semibold mt-1">Active</div>
+        <div class="text-xs font-bold text-slate-900 mt-1">186</div>
+        <div class="text-[10px] text-slate-500">queries/day</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="phone" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">WhatsApp</div>
+        <div class="text-[10px] text-yellow-600 font-semibold mt-1">Beta</div>
+        <div class="text-xs font-bold text-slate-900 mt-1">54</div>
+        <div class="text-[10px] text-slate-500">queries/day</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="mail" class="w-6 h-6"></i></div>
+        <div class="font-bold text-sm text-slate-900">Email</div>
+        <div class="text-[10px] text-green-600 font-semibold mt-1">Active</div>
+        <div class="text-xs font-bold text-slate-900 mt-1">96</div>
+        <div class="text-[10px] text-slate-500">queries/day</div>
+      </div>
+    </div>
+
+    <!-- Channel Config + Usage Chart -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4 text-blue-600"></i> Channel Configuration</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="globe" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">Web Widget</div><div class="text-[10px] text-slate-500">Embeddable chat for customer portals</div></div></div>
+            <span class="badge badge-green">Live</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-violet-50/50 border border-violet-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="code" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">REST API</div><div class="text-[10px] text-slate-500">For custom integrations</div></div></div>
+            <span class="badge badge-green">Live</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="mic" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">Voice Assistant</div><div class="text-[10px] text-slate-500">Speech-to-text + text-to-speech</div></div></div>
+            <span class="badge badge-yellow">Beta</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-orange-50/50 border border-orange-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><i data-lucide="bot" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">Telegram Bot</div><div class="text-[10px] text-slate-500">For field sales team</div></div></div>
+            <span class="badge badge-blue">Planned</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Channel Usage (30 Days)</h3>
+        <canvas id="channelUsageChart" height="220"></canvas>
+      </div>
+    </div>
+
+    <!-- Embed Code -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="code" class="w-4 h-4 text-blue-600"></i> Embed Code — Web Widget</h3>
+      <div class="bg-slate-900 rounded-xl p-4 font-mono text-xs text-green-400 overflow-x-auto">
+        <div class="text-slate-500">// Add this to your website's &lt;body&gt; tag</div>
+        <div>&lt;<span class="text-blue-400">script</span> <span class="text-yellow-400">src</span>=<span class="text-green-300">"https://cdn.cortexintell.ai/widget.js"</span>&gt;&lt;/<span class="text-blue-400">script</span>&gt;</div>
+        <div>&lt;<span class="text-blue-400">script</span>&gt;</div>
+        <div class="pl-4"><span class="text-violet-400">CortexWidget</span>.<span class="text-yellow-400">init</span>({</div>
+        <div class="pl-8"><span class="text-blue-300">apiKey</span>: <span class="text-green-300">'sk_live_••••••••8xK2'</span>,</div>
+        <div class="pl-8"><span class="text-blue-300">theme</span>: <span class="text-green-300">'light'</span>,</div>
+        <div class="pl-8"><span class="text-blue-300">position</span>: <span class="text-green-300">'bottom-right'</span>,</div>
+        <div class="pl-8"><span class="text-blue-300">greeting</span>: <span class="text-green-300">'Hi! How can I help?'</span></div>
+        <div class="pl-4">});</div>
+        <div>&lt;/<span class="text-blue-400">script</span>&gt;</div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <button class="btn-outline text-xs"><i data-lucide="copy" class="w-3 h-3"></i> Copy Code</button>
+        <button class="btn-outline text-xs"><i data-lucide="eye" class="w-3 h-3"></i> Preview</button>
+        <button class="btn-primary text-xs"><i data-lucide="settings" class="w-3 h-3"></i> Customize</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-xs text-slate-400 py-6 mt-6">v2.4.0 · © 2026 AIST Technologies</footer>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  let _chartRendered = {};
+
+  function switchCbTab(tabId) {
+    document.querySelectorAll('.fos-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tabId).classList.add('active');
+    if (tabId === 'dashboard') renderCbDashboardCharts();
+    renderCharts(tabId);
+    lucide.createIcons();
+  }
+
+  function renderCharts(tabId) {
+    if (_chartRendered[tabId]) return;
+    _chartRendered[tabId] = true;
+
+    if (tabId === 'query') {
+      new Chart(document.getElementById('queryPerfChart'), {
+        type: 'line',
+        data: {
+          labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+          datasets: [
+            { label: 'Queries', data: [142, 168, 184, 210, 198, 82, 64], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.1)', fill: true, tension: .4, yAxisID: 'y' },
+            { label: 'Avg Response (s)', data: [1.4, 1.3, 1.5, 1.6, 1.2, 1.1, 1.0], borderColor: '#10b981', tension: .4, yAxisID: 'y1' },
+            { label: 'Accuracy %', data: [96, 97, 95, 96, 98, 97, 98], borderColor: '#8b5cf6', borderDash: [4,4], tension: .4, yAxisID: 'y2' }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } },
+          scales: {
+            y: { grid: { color: '#f1f5f9' }, title: { display: true, text: 'Queries' } },
+            y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'Seconds' } },
+            y2: { display: false, min: 80, max: 100 },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    if (tabId === 'channels') {
+      new Chart(document.getElementById('channelUsageChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Week 1','Week 2','Week 3','Week 4'],
+          datasets: [
+            { label: 'Web App', data: [5800, 6200, 6400, 5900], backgroundColor: 'rgba(59,130,246,.7)', borderRadius: 4, stack: 's' },
+            { label: 'Mobile', data: [2800, 3100, 3200, 3000], backgroundColor: 'rgba(139,92,246,.7)', borderRadius: 4, stack: 's' },
+            { label: 'Slack', data: [2100, 2300, 2200, 2180], backgroundColor: 'rgba(99,102,241,.7)', borderRadius: 4, stack: 's' },
+            { label: 'Teams', data: [1200, 1400, 1300, 1302], backgroundColor: 'rgba(14,165,233,.7)', borderRadius: 4, stack: 's' },
+            { label: 'WhatsApp', data: [340, 380, 420, 378], backgroundColor: 'rgba(16,185,129,.7)', borderRadius: 4, stack: 's' },
+            { label: 'Email', data: [620, 680, 710, 672], backgroundColor: 'rgba(249,115,22,.7)', borderRadius: 4, stack: 's' }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { stacked: true, grid: { color: '#f1f5f9' } }, x: { stacked: true, grid: { display: false } } } }
+      });
+    }
+  }
+
+  // Chat functions
+  function addMsg(text) {
+    if (!text || !text.trim()) return;
+    const chat = document.getElementById("main-chat");
+    chat.insertAdjacentHTML("beforeend", `
+      <div class="flex gap-3 justify-end animate-fade-in-up">
+        <div class="flex-1 flex justify-end"><div class="bg-grad-blue text-white rounded-2xl rounded-tr-sm p-4 max-w-[85%]"><p class="text-sm">${text}</p></div></div>
+        <div class="avatar">RJ</div>
+      </div>
+    `);
+    setTimeout(() => {
+      const reply = CORTEX.fakeAIReply(text);
+      chat.insertAdjacentHTML("beforeend", `
+        <div class="flex gap-3 animate-fade-in-up">
+          <div class="w-9 h-9 rounded-xl bg-grad-blue flex items-center justify-center flex-shrink-0"><i data-lucide="sparkles" class="w-4 h-4 text-white"></i></div>
+          <div class="flex-1"><div class="font-semibold text-sm text-slate-900 mb-1">Cortex AI</div>
+            <div class="glass rounded-2xl rounded-tl-sm p-4 inline-block max-w-[85%]"><p class="text-sm text-slate-700">${reply}</p></div>
+          </div>
+        </div>
+      `);
+      chat.scrollTop = chat.scrollHeight;
+      lucide.createIcons();
+    }, 800);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function startVoice() {
+    CORTEX.toast("Listening... (voice simulation)");
+    setTimeout(() => addMsg("What's my revenue forecast for Q3?"), 1500);
+  }
+
+  function renderCbDashboardCharts() {
+    if (_chartRendered['dashboard']) return;
+    _chartRendered['dashboard'] = true;
+
+    // Conversation Volume - Line Chart
+    new Chart(document.getElementById('dbConvoChart'), {
+      type: 'line',
+      data: {
+        labels: ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+        datasets: [{
+          label: 'Conversations',
+          data: [1200, 1400, 1600, 1800, 2100, 2400],
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,.1)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#3b82f6',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: '#f1f5f9' }, beginAtZero: false },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Resolution Rate - Doughnut Chart
+    new Chart(document.getElementById('dbResolutionChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Resolved', 'Escalated', 'Pending'],
+        datasets: [{
+          data: [94, 4, 2],
+          backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+          borderWidth: 0,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: {
+          legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 11 } } }
+        }
+      }
+    });
+
+    // Response Time - Line Chart
+    new Chart(document.getElementById('dbResponseChart'), {
+      type: 'line',
+      data: {
+        labels: ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+        datasets: [{
+          label: 'Avg Response (s)',
+          data: [2.1, 1.8, 1.6, 1.4, 1.3, 1.2],
+          borderColor: '#8b5cf6',
+          backgroundColor: 'rgba(139,92,246,.1)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#8b5cf6',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: '#f1f5f9' }, beginAtZero: false, title: { display: true, text: 'Seconds', font: { size: 11 } } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Channel Usage - Bar Chart
+    new Chart(document.getElementById('dbChannelChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Web', 'Mobile App', 'Slack', 'Teams', 'Email'],
+        datasets: [{
+          label: 'Usage %',
+          data: [45, 30, 12, 8, 5],
+          backgroundColor: ['rgba(59,130,246,.8)', 'rgba(139,92,246,.8)', 'rgba(99,102,241,.8)', 'rgba(14,165,233,.8)', 'rgba(249,115,22,.8)'],
+          borderRadius: 8,
+          barThickness: 36
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: '#f1f5f9' }, beginAtZero: true, title: { display: true, text: '%', font: { size: 11 } } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  renderCharts('chat');
+
+  CORTEX.init("chatbot");
+  renderCbDashboardCharts();
+  lucide.createIcons();
+</script>
+</body>
+</html>

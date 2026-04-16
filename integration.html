@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cortex Intell — Data Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar-mount"></aside>
+
+<main class="main-area">
+  <div id="topbar-mount"></div>
+
+  <!-- HEADER -->
+  <section class="flex items-start justify-between gap-4 flex-wrap mb-6 animate-fade-in-up">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+        <span>Ecosystem</span> <i data-lucide="chevron-right" class="w-3 h-3"></i> <span class="text-blue-600 font-semibold">Data Platform</span>
+      </div>
+      <h1 class="text-3xl font-extrabold text-slate-900">Data Platform</h1>
+      <p class="text-slate-500">Lakehouse. Pipelines. Governance. Quality.</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn-outline" onclick="CORTEX.openAction('api-keys')"><i data-lucide="key" class="w-4 h-4"></i> API Keys</button>
+      <button class="btn-outline" onclick="CORTEX.openAction('webhooks')"><i data-lucide="webhook" class="w-4 h-4"></i> Webhooks</button>
+      <button class="btn-primary" onclick="CORTEX.openAction('new-pipeline')"><i data-lucide="plus" class="w-4 h-4"></i> New Pipeline</button>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">TOTAL STORAGE</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">2.4 TB</div>
+      <div class="text-xs text-slate-500 font-semibold mt-1">68% utilised</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">ACTIVE PIPELINES</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">48</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">1.8M records/day</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">CONNECTED SOURCES</div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">12</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">All healthy</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="text-xxs font-bold text-slate-500 tracking-wider">DATA QUALITY</div>
+      <div class="text-2xl font-extrabold text-grad mt-1">94<span class="text-sm text-slate-500">/100</span></div>
+      <div class="text-xs text-green-600 font-semibold mt-1">+3 vs last month</div>
+    </div>
+  </section>
+
+  <!-- SUB-MODULE TABS -->
+  <div class="fos-tabs mb-6" id="dp-tabs" style="display:none;">
+    <button class="fos-tab active" data-tab="storage" onclick="switchDpTab('storage')"><i data-lucide="hard-drive" class="w-4 h-4"></i> Data Storage</button>
+    <button class="fos-tab" data-tab="pipelines" onclick="switchDpTab('pipelines')"><i data-lucide="workflow" class="w-4 h-4"></i> Data Pipelines</button>
+    <button class="fos-tab" data-tab="integration" onclick="switchDpTab('integration')"><i data-lucide="plug" class="w-4 h-4"></i> Data Integration</button>
+    <button class="fos-tab" data-tab="governance" onclick="switchDpTab('governance')"><i data-lucide="shield" class="w-4 h-4"></i> Data Governance</button>
+    <button class="fos-tab" data-tab="modelling" onclick="switchDpTab('modelling')"><i data-lucide="boxes" class="w-4 h-4"></i> Data Modelling</button>
+    <button class="fos-tab" data-tab="mdm" onclick="switchDpTab('mdm')"><i data-lucide="crown" class="w-4 h-4"></i> Master Data (MDM)</button>
+    <button class="fos-tab" data-tab="quality" onclick="switchDpTab('quality')"><i data-lucide="check-circle" class="w-4 h-4"></i> Data Quality</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DASHBOARD PANEL                           -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel active" id="panel-dashboard">
+
+    <!-- Sub-module Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-6">
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('storage')">
+        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="hard-drive" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">Data Storage</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('pipelines')">
+        <div class="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="workflow" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">Pipelines</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('integration')">
+        <div class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="plug" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">Integration</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('governance')">
+        <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="shield" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">Governance</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('modelling')">
+        <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="boxes" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">Modelling</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('mdm')">
+        <div class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="crown" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">MDM</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover clickable" onclick="switchDpTab('quality')">
+        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
+        <div class="text-xs font-bold text-slate-800">Quality</div>
+      </div>
+    </div>
+
+    <!-- Charts Row 1: Data Volume + Storage Distribution -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4 text-blue-600"></i> Data Volume Growth</h3>
+        <canvas id="dbVolumeChart" height="220"></canvas>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="pie-chart" class="w-4 h-4 text-violet-600"></i> Storage Distribution</h3>
+        <canvas id="dbStorageChart" height="220"></canvas>
+      </div>
+    </div>
+
+    <!-- Charts Row 2: Pipeline Health + Data Quality -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-green-600"></i> Pipeline Health</h3>
+        <canvas id="dbPipeHealthChart" height="220"></canvas>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-sky-600"></i> Data Quality Trend</h3>
+        <canvas id="dbQualityChart" height="220"></canvas>
+      </div>
+    </div>
+
+    <!-- KPI Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="database" class="w-6 h-6"></i></div>
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider">TOTAL STORAGE</div>
+        <div class="text-2xl font-extrabold text-blue-600 mt-1">2.4 TB</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="workflow" class="w-6 h-6"></i></div>
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider">PIPELINES RUNNING</div>
+        <div class="text-2xl font-extrabold text-green-600 mt-1">48</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider">DATA QUALITY</div>
+        <div class="text-2xl font-extrabold text-violet-600 mt-1">99.2%</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="plug" class="w-6 h-6"></i></div>
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider">CONNECTORS</div>
+        <div class="text-2xl font-extrabold text-sky-600 mt-1">24</div>
+      </div>
+    </div>
+
+    <!-- Active Pipelines + Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <!-- Active Pipelines List -->
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="workflow" class="w-4 h-4 text-blue-600"></i> Active Pipelines</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><div><div class="text-xs font-bold text-slate-900">Salesforce CRM Sync</div><div class="text-[10px] text-slate-500">1.2M records/day</div></div></div>
+            <span class="badge badge-green">Running</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><div><div class="text-xs font-bold text-slate-900">Stripe Payment Events</div><div class="text-[10px] text-slate-500">420K records/day</div></div></div>
+            <span class="badge badge-green">Running</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-yellow-50/50 border border-yellow-200">
+            <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-yellow-500"></div><div><div class="text-xs font-bold text-slate-900">HubSpot Lead Ingestion</div><div class="text-[10px] text-slate-500">86K records/day</div></div></div>
+            <span class="badge badge-yellow">Syncing</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><div><div class="text-xs font-bold text-slate-900">Data Warehouse ETL</div><div class="text-[10px] text-slate-500">2.8M records/day</div></div></div>
+            <span class="badge badge-green">Running</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-red-50/50 border border-red-200">
+            <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-red-500"></div><div><div class="text-xs font-bold text-slate-900">Linear Issue Sync</div><div class="text-[10px] text-slate-500">Schema mismatch detected</div></div></div>
+            <span class="badge badge-red">Error</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity Feed -->
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-violet-600"></i> Recent Activity</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-blue-50/50">
+            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="database" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Gold layer table <span class="font-mono text-blue-600">dim_customers</span> refreshed</div><div class="text-[10px] text-slate-500">2 minutes ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-green-50/50">
+            <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="check-circle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Data quality validation passed for <span class="font-mono text-green-600">fact_revenue</span></div><div class="text-[10px] text-slate-500">15 minutes ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-violet-50/50">
+            <div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="merge" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">MDM auto-merged 42 duplicate contacts</div><div class="text-[10px] text-slate-500">32 minutes ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-orange-50/50">
+            <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Schema drift detected on HubSpot Forms connector</div><div class="text-[10px] text-slate-500">1 hour ago</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-sky-50/50">
+            <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center"><i data-lucide="plug" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">New connector added: Google Analytics 4</div><div class="text-[10px] text-slate-500">3 hours ago</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Data Insights Banner -->
+    <div class="glass-blue rounded-2xl p-5 flex items-center gap-4 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20"><div class="absolute w-48 h-48 bg-white rounded-full blur-3xl -top-20 -right-20 animate-blob"></div></div>
+      <div class="relative z-10 w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center"><i data-lucide="brain" class="w-6 h-6 text-white"></i></div>
+      <div class="relative z-10 flex-1">
+        <div class="font-bold text-white">AI Data Insights</div>
+        <div class="text-white/90 text-sm">Storage grew 12% this quarter. 3 pipelines show degrading throughput. Recommend archiving 480GB of stale Bronze data to save costs.</div>
+      </div>
+      <button class="relative z-10 bg-white text-blue-600 px-4 py-2 rounded-xl font-semibold text-sm hover:scale-105 transition">View Insights →</button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 1 — Data Storage (Lakehouse)          -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-storage">
+    <!-- Storage Overview -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="database" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Bronze Layer</div>
+        <div class="text-xl font-extrabold text-blue-600 mt-1">1.2 TB</div>
+        <div class="text-[10px] text-slate-500">Raw ingested data</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="filter" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Silver Layer</div>
+        <div class="text-xl font-extrabold text-violet-600 mt-1">820 GB</div>
+        <div class="text-[10px] text-slate-500">Cleaned & enriched</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="gem" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Gold Layer</div>
+        <div class="text-xl font-extrabold text-green-600 mt-1">380 GB</div>
+        <div class="text-[10px] text-slate-500">Business-ready</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="archive" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Archive</div>
+        <div class="text-xl font-extrabold text-sky-600 mt-1">4.8 TB</div>
+        <div class="text-[10px] text-slate-500">Cold storage</div>
+      </div>
+    </div>
+
+    <!-- Storage Breakdown + Growth -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Storage by Domain</h3>
+        <canvas id="storageDomainChart" height="220"></canvas>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Storage Growth Trend</h3>
+        <canvas id="storageGrowthChart" height="220"></canvas>
+      </div>
+    </div>
+
+    <!-- Tables Catalog -->
+    <div class="glass-strong rounded-2xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="table" class="w-4 h-4 text-blue-600"></i> Table Catalog</h3>
+        <div class="flex gap-2">
+          <select class="text-xs border border-slate-200 rounded-lg px-3 py-2 bg-white"><option>All Layers</option><option>Bronze</option><option>Silver</option><option>Gold</option></select>
+          <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> Register Table</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-[10px] font-bold text-slate-500 tracking-wider border-b border-slate-100">
+            <th class="pb-3">TABLE NAME</th><th class="pb-3">LAYER</th><th class="pb-3">ROWS</th><th class="pb-3">SIZE</th><th class="pb-3">LAST UPDATED</th><th class="pb-3">FORMAT</th>
+          </tr></thead>
+          <tbody class="divide-y divide-slate-50">
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-mono text-xs font-semibold text-blue-600">raw_crm_contacts</td><td class="py-3"><span class="badge badge-blue">Bronze</span></td><td class="py-3 font-bold">2.4M</td><td class="py-3">342 GB</td><td class="py-3 text-slate-500">2m ago</td><td class="py-3 text-slate-500">Parquet</td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-mono text-xs font-semibold text-blue-600">raw_stripe_events</td><td class="py-3"><span class="badge badge-blue">Bronze</span></td><td class="py-3 font-bold">8.1M</td><td class="py-3">580 GB</td><td class="py-3 text-slate-500">5m ago</td><td class="py-3 text-slate-500">Delta</td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-mono text-xs font-semibold text-violet-600">clean_leads</td><td class="py-3"><span class="badge badge-purple">Silver</span></td><td class="py-3 font-bold">1.8M</td><td class="py-3">240 GB</td><td class="py-3 text-slate-500">10m ago</td><td class="py-3 text-slate-500">Delta</td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-mono text-xs font-semibold text-violet-600">enriched_accounts</td><td class="py-3"><span class="badge badge-purple">Silver</span></td><td class="py-3 font-bold">42K</td><td class="py-3">18 GB</td><td class="py-3 text-slate-500">1h ago</td><td class="py-3 text-slate-500">Delta</td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-mono text-xs font-semibold text-green-600">dim_customers</td><td class="py-3"><span class="badge badge-green">Gold</span></td><td class="py-3 font-bold">38K</td><td class="py-3">8 GB</td><td class="py-3 text-slate-500">30m ago</td><td class="py-3 text-slate-500">Delta</td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-mono text-xs font-semibold text-green-600">fact_revenue</td><td class="py-3"><span class="badge badge-green">Gold</span></td><td class="py-3 font-bold">1.2M</td><td class="py-3">92 GB</td><td class="py-3 text-slate-500">15m ago</td><td class="py-3 text-slate-500">Delta</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 2 — Data Pipelines                    -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-pipelines">
+    <!-- Visual Pipeline Builder -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="workflow" class="w-4 h-4 text-blue-600"></i> Visual Pipeline Builder</h3>
+        <div class="flex gap-2">
+          <button class="btn-outline text-xs"><i data-lucide="play" class="w-3 h-3"></i> Test Run</button>
+          <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> New Pipeline</button>
+        </div>
+      </div>
+      <div class="relative h-56 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
+        <div class="absolute top-4 left-4 flex flex-col gap-2">
+          <div class="bg-white border border-blue-200 rounded-lg px-3 py-2 shadow-blue"><div class="flex items-center gap-2"><i data-lucide="database" class="w-4 h-4 text-blue-600"></i><span class="text-xs font-bold">Salesforce</span></div></div>
+          <div class="bg-white border border-blue-200 rounded-lg px-3 py-2 shadow-blue"><div class="flex items-center gap-2"><i data-lucide="credit-card" class="w-4 h-4 text-indigo-600"></i><span class="text-xs font-bold">Stripe</span></div></div>
+        </div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div class="bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-xl px-4 py-3 shadow-blue-lg"><div class="flex items-center gap-2"><i data-lucide="wand-2" class="w-4 h-4"></i><span class="text-xs font-bold">AI Transform</span></div></div>
+        </div>
+        <div class="absolute top-4 right-4 flex flex-col gap-2">
+          <div class="bg-white border border-blue-200 rounded-lg px-3 py-2 shadow-blue"><div class="flex items-center gap-2"><i data-lucide="gem" class="w-4 h-4 text-green-600"></i><span class="text-xs font-bold">Gold Layer</span></div></div>
+          <div class="bg-white border border-blue-200 rounded-lg px-3 py-2 shadow-blue"><div class="flex items-center gap-2"><i data-lucide="bar-chart-3" class="w-4 h-4 text-violet-600"></i><span class="text-xs font-bold">Analytics</span></div></div>
+        </div>
+        <svg class="absolute inset-0 w-full h-full pointer-events-none">
+          <line x1="22%" y1="25%" x2="48%" y2="48%" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/></line>
+          <line x1="22%" y1="62%" x2="48%" y2="52%" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/></line>
+          <line x1="56%" y1="48%" x2="78%" y2="25%" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/></line>
+          <line x1="56%" y1="52%" x2="78%" y2="62%" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/></line>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Pipeline Table -->
+    <div class="glass-strong rounded-2xl overflow-hidden mb-5">
+      <div class="p-5 flex items-center justify-between border-b border-slate-100">
+        <div><h3 class="font-bold text-slate-900">Active Pipelines</h3><p class="text-xs text-slate-500">48 pipelines · Processing 1.8M records/day</p></div>
+        <select class="text-xs border border-slate-200 rounded-lg px-3 py-2 bg-white"><option>All Status</option><option>Healthy</option><option>Warning</option><option>Error</option></select>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead><tr><th>Pipeline</th><th>Source</th><th>Destination</th><th>Records</th><th>Health</th><th>Last Sync</th><th>Actions</th></tr></thead>
+          <tbody id="pipeline-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Throughput Chart -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4">Pipeline Throughput (24h)</h3>
+      <canvas id="throughputChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 3 — Data Integration                  -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-integration">
+    <!-- AI Helper -->
+    <div class="glass-blue rounded-2xl p-5 mb-5 flex items-center gap-4 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20"><div class="absolute w-48 h-48 bg-white rounded-full blur-3xl -top-20 -right-20 animate-blob"></div></div>
+      <div class="relative z-10 w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center"><i data-lucide="git-merge" class="w-6 h-6 text-white"></i></div>
+      <div class="relative z-10 flex-1">
+        <div class="font-bold text-white">Data Integration Agent</div>
+        <div class="text-white/90 text-sm">I auto-map fields, detect schema drift, and fix broken connectors. Linear integration needs attention.</div>
+      </div>
+      <button class="relative z-10 bg-white text-blue-600 px-4 py-2 rounded-xl font-semibold text-sm hover:scale-105 transition">Fix Linear →</button>
+    </div>
+
+    <!-- Connected Apps -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="plug" class="w-4 h-4 text-blue-600"></i> Connected Apps & Services</h3>
+        <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> Add Connector</button>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="apps-grid"></div>
+    </div>
+
+    <!-- API Keys + Webhooks -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="key" class="w-4 h-4 text-blue-600"></i> API Keys</h3>
+        <div class="space-y-3">
+          <div class="p-3 bg-blue-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Production</span><span class="badge badge-green">Active</span></div>
+            <div class="flex items-center gap-2 font-mono text-xs"><span class="text-slate-600">sk_live_••••••••••••8xK2</span><button class="text-blue-600"><i data-lucide="copy" class="w-3 h-3"></i></button></div>
+            <div class="text-xs text-slate-400 mt-1">Last used 2 min ago</div>
+          </div>
+          <div class="p-3 bg-indigo-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Development</span><span class="badge badge-blue">Test</span></div>
+            <div class="flex items-center gap-2 font-mono text-xs"><span class="text-slate-600">sk_test_••••••••••••p4Qn</span><button class="text-blue-600"><i data-lucide="copy" class="w-3 h-3"></i></button></div>
+            <div class="text-xs text-slate-400 mt-1">Created Jan 20, 2026</div>
+          </div>
+          <div class="p-3 bg-violet-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Mobile SDK</span><span class="badge badge-green">Active</span></div>
+            <div class="flex items-center gap-2 font-mono text-xs"><span class="text-slate-600">sk_mobile_••••••••ZvN8</span><button class="text-blue-600"><i data-lucide="copy" class="w-3 h-3"></i></button></div>
+            <div class="text-xs text-slate-400 mt-1">Created Mar 5, 2026</div>
+          </div>
+        </div>
+        <button class="btn-outline w-full mt-4 justify-center text-sm">+ Generate New Key</button>
+      </div>
+
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="webhook" class="w-4 h-4 text-blue-600"></i> Webhooks Log</h3>
+        <div class="space-y-2 max-h-72 overflow-y-auto">
+          <div class="flex items-center gap-3 p-2.5 bg-green-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-green-500"></div><span class="font-mono text-xs flex-1">POST /payment.success</span><span class="text-xs text-slate-500">200 · 124ms</span></div>
+          <div class="flex items-center gap-3 p-2.5 bg-green-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-green-500"></div><span class="font-mono text-xs flex-1">POST /lead.created</span><span class="text-xs text-slate-500">200 · 89ms</span></div>
+          <div class="flex items-center gap-3 p-2.5 bg-green-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-green-500"></div><span class="font-mono text-xs flex-1">POST /user.updated</span><span class="text-xs text-slate-500">200 · 67ms</span></div>
+          <div class="flex items-center gap-3 p-2.5 bg-red-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-red-500"></div><span class="font-mono text-xs flex-1">POST /invoice.failed</span><span class="text-xs text-red-600 font-bold">500 · retry</span></div>
+          <div class="flex items-center gap-3 p-2.5 bg-green-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-green-500"></div><span class="font-mono text-xs flex-1">POST /project.milestone</span><span class="text-xs text-slate-500">200 · 142ms</span></div>
+          <div class="flex items-center gap-3 p-2.5 bg-green-50 rounded-lg"><div class="w-2 h-2 rounded-full bg-green-500"></div><span class="font-mono text-xs flex-1">POST /employee.onboard</span><span class="text-xs text-slate-500">200 · 98ms</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 4 — Data Governance                   -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-governance">
+    <!-- Governance Score -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">GOVERNANCE SCORE</div>
+        <div class="text-3xl font-extrabold text-green-600">87<span class="text-sm text-slate-400">/100</span></div>
+        <div class="text-xs text-green-600 font-semibold mt-1">Good</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">POLICIES ACTIVE</div>
+        <div class="text-3xl font-extrabold text-blue-600">24</div>
+        <div class="text-xs text-slate-500 mt-1">3 pending review</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">COMPLIANCE</div>
+        <div class="text-3xl font-extrabold text-violet-600">96%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">GDPR, SOC 2, ISO</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">DATA LINEAGE</div>
+        <div class="text-3xl font-extrabold text-sky-600">142</div>
+        <div class="text-xs text-slate-500 mt-1">Tracked assets</div>
+      </div>
+    </div>
+
+    <!-- Access Policies + Data Classification -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4 text-blue-600"></i> Access Control Policies</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="eye-off" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">PII Masking</div><div class="text-[10px] text-slate-500">Auto-mask SSN, email, phone in non-prod</div></div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-violet-50/50 border border-violet-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="users" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">Role-Based Access</div><div class="text-[10px] text-slate-500">5 roles · 142 users mapped</div></div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-red-50/50 border border-red-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><i data-lucide="shield-alert" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">Data Retention</div><div class="text-[10px] text-slate-500">Auto-purge data older than 7 years</div></div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="file-check" class="w-4 h-4"></i></div>
+            <div><div class="text-xs font-bold text-slate-900">Audit Logging</div><div class="text-[10px] text-slate-500">All data access logged for 3 years</div></div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="tag" class="w-4 h-4 text-violet-600"></i> Data Classification</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-red-50/50 border border-red-100">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Restricted</div><div class="text-[10px] text-slate-500">SSN, bank accounts, medical records</div></div>
+            <div class="text-sm font-bold text-red-600">18 fields</div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-orange-50/50 border border-orange-100">
+            <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Confidential</div><div class="text-[10px] text-slate-500">Revenue, salaries, deal values</div></div>
+            <div class="text-sm font-bold text-orange-600">42 fields</div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-yellow-50/50 border border-yellow-100">
+            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Internal</div><div class="text-[10px] text-slate-500">Employee names, project names, KPIs</div></div>
+            <div class="text-sm font-bold text-yellow-600">86 fields</div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-green-50/50 border border-green-100">
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">Public</div><div class="text-[10px] text-slate-500">Product names, blog content, FAQs</div></div>
+            <div class="text-sm font-bold text-green-600">124 fields</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Lineage Preview -->
+    <div class="glass-strong rounded-2xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="git-branch" class="w-4 h-4 text-blue-600"></i> Data Lineage Viewer</h3>
+        <button class="btn-outline text-xs">Full Screen</button>
+      </div>
+      <div class="relative h-48 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl p-4 border border-slate-100 overflow-hidden">
+        <div class="flex items-center justify-between h-full">
+          <div class="flex flex-col gap-2">
+            <div class="px-3 py-2 bg-blue-100 rounded-lg text-[10px] font-bold text-blue-700">Salesforce API</div>
+            <div class="px-3 py-2 bg-blue-100 rounded-lg text-[10px] font-bold text-blue-700">Stripe Events</div>
+            <div class="px-3 py-2 bg-blue-100 rounded-lg text-[10px] font-bold text-blue-700">HubSpot Forms</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="px-3 py-2 bg-violet-100 rounded-lg text-[10px] font-bold text-violet-700">Bronze: raw_contacts</div>
+            <div class="px-3 py-2 bg-violet-100 rounded-lg text-[10px] font-bold text-violet-700">Bronze: raw_payments</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="px-3 py-2 bg-indigo-100 rounded-lg text-[10px] font-bold text-indigo-700">Silver: clean_leads</div>
+            <div class="px-3 py-2 bg-indigo-100 rounded-lg text-[10px] font-bold text-indigo-700">Silver: enriched_accts</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="px-3 py-2 bg-green-100 rounded-lg text-[10px] font-bold text-green-700">Gold: dim_customers</div>
+            <div class="px-3 py-2 bg-green-100 rounded-lg text-[10px] font-bold text-green-700">Gold: fact_revenue</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="px-3 py-2 bg-sky-100 rounded-lg text-[10px] font-bold text-sky-700">Executive Dashboard</div>
+            <div class="px-3 py-2 bg-sky-100 rounded-lg text-[10px] font-bold text-sky-700">ML Models</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 5 — Data Modelling                    -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-modelling">
+    <!-- Entity Relationship Diagram -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="boxes" class="w-4 h-4 text-blue-600"></i> Entity Relationship Diagram</h3>
+        <div class="flex gap-2">
+          <button class="btn-outline text-xs"><i data-lucide="maximize-2" class="w-3 h-3"></i> Expand</button>
+          <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> Add Entity</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-blue-50 border-2 border-blue-200">
+          <div class="text-xs font-bold text-blue-700 mb-2 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i> Customer</div>
+          <div class="space-y-1 text-[10px] text-slate-600">
+            <div class="flex items-center gap-1"><span class="text-yellow-500">PK</span> customer_id</div>
+            <div>name, email, phone</div>
+            <div>company, industry</div>
+            <div>created_at, updated_at</div>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-violet-50 border-2 border-violet-200">
+          <div class="text-xs font-bold text-violet-700 mb-2 flex items-center gap-1"><i data-lucide="handshake" class="w-3 h-3"></i> Deal</div>
+          <div class="space-y-1 text-[10px] text-slate-600">
+            <div class="flex items-center gap-1"><span class="text-yellow-500">PK</span> deal_id</div>
+            <div><span class="text-blue-500">FK</span> customer_id</div>
+            <div>amount, stage, probability</div>
+            <div>close_date, owner_id</div>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-green-50 border-2 border-green-200">
+          <div class="text-xs font-bold text-green-700 mb-2 flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3"></i> Invoice</div>
+          <div class="space-y-1 text-[10px] text-slate-600">
+            <div class="flex items-center gap-1"><span class="text-yellow-500">PK</span> invoice_id</div>
+            <div><span class="text-blue-500">FK</span> customer_id</div>
+            <div><span class="text-blue-500">FK</span> deal_id</div>
+            <div>amount, status, due_date</div>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-orange-50 border-2 border-orange-200">
+          <div class="text-xs font-bold text-orange-700 mb-2 flex items-center gap-1"><i data-lucide="ticket" class="w-3 h-3"></i> Support Case</div>
+          <div class="space-y-1 text-[10px] text-slate-600">
+            <div class="flex items-center gap-1"><span class="text-yellow-500">PK</span> case_id</div>
+            <div><span class="text-blue-500">FK</span> customer_id</div>
+            <div>subject, priority, status</div>
+            <div>assigned_to, resolution</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Models List -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900">Data Models</h3>
+        <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> Create Model</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-[10px] font-bold text-slate-500 tracking-wider border-b border-slate-100">
+            <th class="pb-3">MODEL NAME</th><th class="pb-3">TYPE</th><th class="pb-3">ENTITIES</th><th class="pb-3">RELATIONSHIPS</th><th class="pb-3">LAST MODIFIED</th><th class="pb-3">STATUS</th>
+          </tr></thead>
+          <tbody class="divide-y divide-slate-50">
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Customer 360 Model</td><td class="py-3"><span class="badge badge-blue">Dimensional</span></td><td class="py-3 font-bold">12</td><td class="py-3 font-bold">18</td><td class="py-3 text-slate-500">2 days ago</td><td class="py-3"><span class="badge badge-green">Production</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Revenue Analytics Model</td><td class="py-3"><span class="badge badge-purple">Star Schema</span></td><td class="py-3 font-bold">8</td><td class="py-3 font-bold">14</td><td class="py-3 text-slate-500">5 days ago</td><td class="py-3"><span class="badge badge-green">Production</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">HR People Model</td><td class="py-3"><span class="badge badge-green">Relational</span></td><td class="py-3 font-bold">10</td><td class="py-3 font-bold">16</td><td class="py-3 text-slate-500">1 week ago</td><td class="py-3"><span class="badge badge-green">Production</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Marketing Attribution</td><td class="py-3"><span class="badge badge-yellow">Graph</span></td><td class="py-3 font-bold">6</td><td class="py-3 font-bold">22</td><td class="py-3 text-slate-500">3 days ago</td><td class="py-3"><span class="badge badge-yellow">Staging</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Schema Diff -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="git-compare" class="w-4 h-4 text-orange-500"></i> Schema Drift Detection</h3>
+      <div class="space-y-3">
+        <div class="flex items-center gap-4 p-3 rounded-xl bg-yellow-50/50 border border-yellow-200">
+          <div class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-4 h-4"></i></div>
+          <div class="flex-1"><div class="text-xs font-bold text-slate-900">Salesforce: Contact object</div><div class="text-[10px] text-slate-500">New field added: <span class="font-mono">preferred_channel</span> (string) — not yet mapped</div></div>
+          <button class="text-xs text-blue-600 font-semibold">Map Field →</button>
+        </div>
+        <div class="flex items-center gap-4 p-3 rounded-xl bg-green-50/50 border border-green-100">
+          <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="check" class="w-4 h-4"></i></div>
+          <div class="flex-1"><div class="text-xs font-bold text-slate-900">Stripe: Payment Intent</div><div class="text-[10px] text-slate-500">Schema unchanged — last checked 10m ago</div></div>
+          <span class="text-xs text-green-600 font-semibold">OK</span>
+        </div>
+        <div class="flex items-center gap-4 p-3 rounded-xl bg-red-50/50 border border-red-200">
+          <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></div>
+          <div class="flex-1"><div class="text-xs font-bold text-slate-900">HubSpot: Form Submissions</div><div class="text-[10px] text-slate-500">Field removed: <span class="font-mono">lead_source_detail</span> — pipeline may break</div></div>
+          <button class="text-xs text-red-600 font-semibold">Fix Now →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 6 — Master Data Management (MDM)      -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-mdm">
+    <!-- Golden Record Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="crown" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Golden Records</div>
+        <div class="text-xl font-extrabold text-yellow-600 mt-1">38,420</div>
+        <div class="text-[10px] text-slate-500">Unified entities</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="copy" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Duplicates Found</div>
+        <div class="text-xl font-extrabold text-red-600 mt-1">1,247</div>
+        <div class="text-[10px] text-slate-500">Pending merge</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="merge" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Auto-Merged</div>
+        <div class="text-xl font-extrabold text-green-600 mt-1">4,821</div>
+        <div class="text-[10px] text-slate-500">This month</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5 text-center card-hover">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="link" class="w-6 h-6"></i></div>
+        <div class="font-bold text-slate-900 text-sm">Source Systems</div>
+        <div class="text-xl font-extrabold text-blue-600 mt-1">7</div>
+        <div class="text-[10px] text-slate-500">Connected</div>
+      </div>
+    </div>
+
+    <!-- Duplicate Review -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="copy" class="w-4 h-4 text-red-500"></i> Duplicate Review Queue</h3>
+        <div class="flex gap-2">
+          <button class="btn-outline text-xs">Auto-Merge All (92% confidence)</button>
+          <button class="btn-primary text-xs">Review Manually</button>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <div class="p-4 rounded-xl bg-yellow-50/50 border border-yellow-200">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm font-bold text-slate-900">Possible Duplicate: TechCorp Inc.</div>
+            <span class="badge badge-yellow">94% match</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="p-2 bg-white rounded-lg"><div class="font-bold text-blue-600 mb-1">CRM Record</div><div class="text-slate-600">TechCorp Inc. · john@techcorp.com · (555) 123-4567</div></div>
+            <div class="p-2 bg-white rounded-lg"><div class="font-bold text-violet-600 mb-1">Finance Record</div><div class="text-slate-600">Tech Corp, Inc. · john.doe@techcorp.com · (555) 123-4567</div></div>
+          </div>
+          <div class="flex gap-2 mt-2">
+            <button class="text-xs text-green-600 font-semibold px-3 py-1 rounded-lg bg-green-50 border border-green-200">Merge →</button>
+            <button class="text-xs text-slate-500 font-semibold px-3 py-1 rounded-lg bg-slate-50 border border-slate-200">Not Duplicate</button>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-yellow-50/50 border border-yellow-200">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm font-bold text-slate-900">Possible Duplicate: Sarah Chen</div>
+            <span class="badge badge-yellow">88% match</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="p-2 bg-white rounded-lg"><div class="font-bold text-blue-600 mb-1">CRM Contact</div><div class="text-slate-600">Sarah Chen · s.chen@globaltrade.com · VP Marketing</div></div>
+            <div class="p-2 bg-white rounded-lg"><div class="font-bold text-violet-600 mb-1">HubSpot Lead</div><div class="text-slate-600">Sarah C. · sarah.chen@globaltrade.com · Marketing Director</div></div>
+          </div>
+          <div class="flex gap-2 mt-2">
+            <button class="text-xs text-green-600 font-semibold px-3 py-1 rounded-lg bg-green-50 border border-green-200">Merge →</button>
+            <button class="text-xs text-slate-500 font-semibold px-3 py-1 rounded-lg bg-slate-50 border border-slate-200">Not Duplicate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match & Merge Rules -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="settings-2" class="w-4 h-4 text-blue-600"></i> Match & Merge Rules</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-[10px] font-bold text-slate-500 tracking-wider border-b border-slate-100">
+            <th class="pb-3">ENTITY TYPE</th><th class="pb-3">MATCH FIELDS</th><th class="pb-3">STRATEGY</th><th class="pb-3">AUTO-MERGE THRESHOLD</th><th class="pb-3">STATUS</th>
+          </tr></thead>
+          <tbody class="divide-y divide-slate-50">
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Company</td><td class="py-3 text-slate-600">Name, Domain, Phone</td><td class="py-3 text-slate-600">Fuzzy + Exact</td><td class="py-3 font-bold text-green-600">95%</td><td class="py-3"><span class="badge badge-green">Active</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Contact</td><td class="py-3 text-slate-600">Email, Name, Company</td><td class="py-3 text-slate-600">Exact + Fuzzy</td><td class="py-3 font-bold text-green-600">90%</td><td class="py-3"><span class="badge badge-green">Active</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Product</td><td class="py-3 text-slate-600">SKU, Name</td><td class="py-3 text-slate-600">Exact</td><td class="py-3 font-bold text-green-600">99%</td><td class="py-3"><span class="badge badge-green">Active</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Address</td><td class="py-3 text-slate-600">Street, City, Postal</td><td class="py-3 text-slate-600">Fuzzy + Geocode</td><td class="py-3 font-bold text-yellow-600">85%</td><td class="py-3"><span class="badge badge-yellow">Review</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TAB 7 — Data Quality & Validation         -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="fos-panel" id="panel-quality">
+    <!-- Quality Score -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">OVERALL SCORE</div>
+        <div class="text-3xl font-extrabold text-green-600">94</div>
+        <div class="text-[10px] text-green-600 font-semibold">Healthy</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">COMPLETENESS</div>
+        <div class="text-3xl font-extrabold text-blue-600">97%</div>
+        <div class="w-full bg-blue-100 rounded-full h-1.5 mt-2"><div class="bg-blue-500 h-1.5 rounded-full" style="width:97%"></div></div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">ACCURACY</div>
+        <div class="text-3xl font-extrabold text-violet-600">92%</div>
+        <div class="w-full bg-violet-100 rounded-full h-1.5 mt-2"><div class="bg-violet-500 h-1.5 rounded-full" style="width:92%"></div></div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">CONSISTENCY</div>
+        <div class="text-3xl font-extrabold text-green-600">95%</div>
+        <div class="w-full bg-green-100 rounded-full h-1.5 mt-2"><div class="bg-green-500 h-1.5 rounded-full" style="width:95%"></div></div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 text-center card-hover">
+        <div class="text-[10px] font-bold text-slate-500 tracking-wider mb-1">FRESHNESS</div>
+        <div class="text-3xl font-extrabold text-sky-600">89%</div>
+        <div class="w-full bg-sky-100 rounded-full h-1.5 mt-2"><div class="bg-sky-500 h-1.5 rounded-full" style="width:89%"></div></div>
+      </div>
+    </div>
+
+    <!-- Validation Rules -->
+    <div class="glass-strong rounded-2xl p-6 mb-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-600"></i> Validation Rules</h3>
+        <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> Add Rule</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-[10px] font-bold text-slate-500 tracking-wider border-b border-slate-100">
+            <th class="pb-3">RULE</th><th class="pb-3">TABLE</th><th class="pb-3">TYPE</th><th class="pb-3">LAST CHECK</th><th class="pb-3">PASS RATE</th><th class="pb-3">STATUS</th>
+          </tr></thead>
+          <tbody class="divide-y divide-slate-50">
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Email format valid</td><td class="py-3 font-mono text-xs">clean_leads</td><td class="py-3"><span class="badge badge-blue">Format</span></td><td class="py-3 text-slate-500">10m ago</td><td class="py-3 font-bold text-green-600">99.8%</td><td class="py-3"><span class="badge badge-green">Pass</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Revenue > 0</td><td class="py-3 font-mono text-xs">fact_revenue</td><td class="py-3"><span class="badge badge-purple">Range</span></td><td class="py-3 text-slate-500">15m ago</td><td class="py-3 font-bold text-green-600">100%</td><td class="py-3"><span class="badge badge-green">Pass</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Customer ID not null</td><td class="py-3 font-mono text-xs">dim_customers</td><td class="py-3"><span class="badge badge-green">Not Null</span></td><td class="py-3 text-slate-500">30m ago</td><td class="py-3 font-bold text-green-600">100%</td><td class="py-3"><span class="badge badge-green">Pass</span></td></tr>
+            <tr class="hover:bg-yellow-50/30"><td class="py-3 font-semibold text-slate-900">Phone format valid</td><td class="py-3 font-mono text-xs">clean_leads</td><td class="py-3"><span class="badge badge-blue">Format</span></td><td class="py-3 text-slate-500">10m ago</td><td class="py-3 font-bold text-yellow-600">87.2%</td><td class="py-3"><span class="badge badge-yellow">Warning</span></td></tr>
+            <tr class="hover:bg-blue-50/30"><td class="py-3 font-semibold text-slate-900">Deal amount matches invoice</td><td class="py-3 font-mono text-xs">fact_revenue</td><td class="py-3"><span class="badge badge-yellow">Cross-ref</span></td><td class="py-3 text-slate-500">1h ago</td><td class="py-3 font-bold text-green-600">98.4%</td><td class="py-3"><span class="badge badge-green">Pass</span></td></tr>
+            <tr class="hover:bg-red-50/30"><td class="py-3 font-semibold text-slate-900">Address country valid</td><td class="py-3 font-mono text-xs">enriched_accounts</td><td class="py-3"><span class="badge badge-blue">Lookup</span></td><td class="py-3 text-slate-500">2h ago</td><td class="py-3 font-bold text-red-600">72.1%</td><td class="py-3"><span class="badge badge-red">Fail</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Quality Trend + Issues -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Data Quality Trend</h3>
+        <canvas id="qualityTrendChart" height="200"></canvas>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="alert-circle" class="w-4 h-4 text-red-500"></i> Open Issues</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-red-50/50 border border-red-200">
+            <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><i data-lucide="x-circle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">1,842 invalid country codes</div><div class="text-[10px] text-slate-500">enriched_accounts · Since Apr 10</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Fix →</button>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-yellow-50/50 border border-yellow-200">
+            <div class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">2,341 phone numbers missing format</div><div class="text-[10px] text-slate-500">clean_leads · Since Apr 8</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Fix →</button>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-yellow-50/50 border border-yellow-200">
+            <div class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center"><i data-lucide="clock" class="w-4 h-4"></i></div>
+            <div class="flex-1"><div class="text-xs font-bold text-slate-900">48 stale records (>90 days no update)</div><div class="text-[10px] text-slate-500">dim_customers · Flagged today</div></div>
+            <button class="text-xs text-blue-600 font-semibold">Review →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-xs text-slate-400 py-6">v2.4.0 · © 2026 AIST Technologies</footer>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  let _chartRendered = {};
+
+  function switchDpTab(tabId) {
+    document.querySelectorAll('.fos-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tabId).classList.add('active');
+    if (tabId === 'dashboard') renderDpDashboardCharts();
+    renderCharts(tabId);
+    lucide.createIcons();
+  }
+
+  function renderCharts(tabId) {
+    if (_chartRendered[tabId]) return;
+    _chartRendered[tabId] = true;
+
+    if (tabId === 'storage') {
+      new Chart(document.getElementById('storageDomainChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['CRM Data','Finance','HR','Marketing','Projects','Support'],
+          datasets: [{ data: [680, 420, 280, 360, 180, 480], backgroundColor: ['rgba(59,130,246,.8)','rgba(16,185,129,.8)','rgba(249,115,22,.8)','rgba(139,92,246,.8)','rgba(14,165,233,.8)','rgba(236,72,153,.8)'], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, cutout: '55%' }
+      });
+
+      new Chart(document.getElementById('storageGrowthChart'), {
+        type: 'line',
+        data: {
+          labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+          datasets: [
+            { label: 'Total (TB)', data: [1.6, 1.8, 1.9, 2.0, 2.1, 2.3, 2.4], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.1)', fill: true, tension: .4 },
+            { label: 'Archive (TB)', data: [3.2, 3.5, 3.8, 4.0, 4.2, 4.5, 4.8], borderColor: '#94a3b8', borderDash: [6,4], tension: .4 }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+      });
+    }
+
+    if (tabId === 'pipelines') {
+      const labels24 = Array.from({length: 24}, (_, i) => i + ":00");
+      const throughputData = [420,380,340,310,290,420,680,920,1100,1240,1180,1120,980,1060,1140,1200,1080,940,780,620,540,480,440,410];
+      new Chart(document.getElementById('throughputChart'), {
+        type: 'bar',
+        data: { labels: labels24, datasets: [{ label: 'Records/min', data: throughputData, backgroundColor: 'rgba(59,130,246,.8)', borderRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false }, ticks: { font: { size: 9 } } } } }
+      });
+    }
+
+    if (tabId === 'quality') {
+      new Chart(document.getElementById('qualityTrendChart'), {
+        type: 'line',
+        data: {
+          labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+          datasets: [
+            { label: 'Overall Score', data: [82, 84, 86, 88, 90, 92, 94], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,.1)', fill: true, tension: .4 },
+            { label: 'Completeness', data: [88, 90, 91, 93, 95, 96, 97], borderColor: '#3b82f6', tension: .4 },
+            { label: 'Accuracy', data: [78, 80, 83, 85, 88, 90, 92], borderColor: '#8b5cf6', tension: .4 }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { min: 70, max: 100, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+      });
+    }
+  }
+
+  function renderDpDashboardCharts() {
+    if (_chartRendered['dashboard']) return;
+    _chartRendered['dashboard'] = true;
+
+    // Data Volume Growth — Line Chart
+    new Chart(document.getElementById('dbVolumeChart'), {
+      type: 'line',
+      data: {
+        labels: ['Nov','Dec','Jan','Feb','Mar','Apr'],
+        datasets: [{
+          label: 'Data Volume (TB)',
+          data: [1.6, 1.8, 1.9, 2.1, 2.2, 2.4],
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,.1)',
+          fill: true,
+          tension: .4,
+          borderWidth: 2,
+          pointBackgroundColor: '#3b82f6'
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+    });
+
+    // Storage Distribution — Doughnut Chart
+    new Chart(document.getElementById('dbStorageChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Bronze (40%)','Silver (30%)','Gold (20%)','Archive (10%)'],
+        datasets: [{
+          data: [40, 30, 20, 10],
+          backgroundColor: ['rgba(59,130,246,.8)','rgba(139,92,246,.8)','rgba(16,185,129,.8)','rgba(148,163,184,.8)'],
+          borderWidth: 0
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, cutout: '55%' }
+    });
+
+    // Pipeline Health — Bar Chart
+    new Chart(document.getElementById('dbPipeHealthChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Running','Completed','Failed','Paused'],
+        datasets: [{
+          label: 'Pipelines',
+          data: [42, 3, 1, 2],
+          backgroundColor: ['rgba(16,185,129,.8)','rgba(59,130,246,.8)','rgba(239,68,68,.8)','rgba(249,115,22,.8)'],
+          borderRadius: 8
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f1f5f9' }, beginAtZero: true }, x: { grid: { display: false } } } }
+    });
+
+    // Data Quality Trend — Line Chart
+    new Chart(document.getElementById('dbQualityChart'), {
+      type: 'line',
+      data: {
+        labels: ['Nov','Dec','Jan','Feb','Mar','Apr'],
+        datasets: [
+          { label: 'Accuracy', data: [97.8, 98.0, 98.4, 98.6, 98.9, 99.2], borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,.1)', fill: true, tension: .4, borderWidth: 2, pointBackgroundColor: '#8b5cf6' },
+          { label: 'Completeness', data: [96.2, 96.5, 97.0, 97.4, 97.8, 98.1], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.05)', fill: true, tension: .4, borderWidth: 2, pointBackgroundColor: '#3b82f6' }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { min: 95, max: 100, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+    });
+  }
+
+  // ---- Connected Apps Grid ----
+  const appStatusColor = { "Connected": "badge-green", "Syncing": "badge-blue", "Error": "badge-red" };
+  document.getElementById("apps-grid").innerHTML = CORTEX_DATA.apps.map(a => `
+    <div class="glass rounded-2xl p-4 card-hover text-center relative clickable" onclick='CORTEX.openModal("app", ${JSON.stringify({name:a.name, status:a.status}).replace(/'/g,"&#39;")})'>
+      ${a.status === 'Error' ? '<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 animate-ping-ring"></span>' : ''}
+      <div class="w-12 h-12 mx-auto rounded-xl ${iconBadge(a.color)} flex items-center justify-center mb-2"><i data-lucide="${a.icon}" class="w-6 h-6"></i></div>
+      <div class="text-sm font-bold text-slate-800">${a.name}</div>
+      <span class="badge ${appStatusColor[a.status]} mt-2">${a.status}</span>
+    </div>
+  `).join('');
+
+  // ---- Pipelines Table ----
+  const pHealth = { "Healthy": "badge-green", "Syncing": "badge-blue", "Warning": "badge-yellow", "Error": "badge-red" };
+  document.getElementById("pipeline-body").innerHTML = CORTEX_DATA.pipelines.map(p => `
+    <tr class="clickable" onclick='CORTEX.openModal("pipeline", ${JSON.stringify({name:p.name, source:p.source, dest:p.dest, records:p.records, status:p.health}).replace(/'/g,"&#39;")})'>
+      <td class="font-semibold">${p.name}</td>
+      <td class="text-slate-500">${p.source}</td>
+      <td class="text-slate-500">${p.dest}</td>
+      <td class="font-bold">${p.records}</td>
+      <td><span class="badge ${pHealth[p.health]}">${p.health}</span></td>
+      <td class="text-slate-500">${p.lastSync}</td>
+      <td onclick="event.stopPropagation()">
+        <button class="p-1.5 hover:bg-blue-50 rounded-lg"><i data-lucide="play" class="w-4 h-4 text-blue-600"></i></button>
+        <button class="p-1.5 hover:bg-blue-50 rounded-lg"><i data-lucide="settings" class="w-4 h-4 text-slate-400"></i></button>
+      </td>
+    </tr>
+  `).join('');
+
+  // Render default tab charts
+  renderCharts('storage');
+
+  CORTEX.init("integration");
+  lucide.createIcons();
+</script>
+</body>
+</html>

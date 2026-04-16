@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cortex Intell — Cortex Database</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar-mount"></aside>
+
+<main class="main-area">
+  <div id="topbar-mount"></div>
+
+  <!-- Header -->
+  <section class="flex items-start justify-between gap-4 flex-wrap mb-6 animate-fade-in-up">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+        <span>Ecosystem</span> <i data-lucide="chevron-right" class="w-3 h-3"></i> <span class="text-blue-600 font-semibold">Cortex Database</span>
+      </div>
+      <h1 class="text-3xl font-extrabold text-slate-900">Cortex Database</h1>
+      <p class="text-slate-500">One unified data layer — transactional · analytical · vector · backups.</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn-outline" onclick="CORTEX.openAction('export')"><i data-lucide="download" class="w-4 h-4"></i> Export</button>
+      <button class="btn-outline" onclick="CORTEX.openAction('api-keys')"><i data-lucide="key" class="w-4 h-4"></i> Connection Strings</button>
+      <button class="btn-primary" onclick="CORTEX.openAction('new-entry')"><i data-lucide="terminal" class="w-4 h-4"></i> Query Console</button>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="services-hero animate-fade-in-up mb-6">
+    <div class="relative z-10">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="badge badge-blue">🗄️ DATA CORE</span>
+        <span class="badge badge-purple">99.99% UPTIME</span>
+      </div>
+      <h2 class="text-3xl font-extrabold mb-2">Your data, unified.</h2>
+      <p class="text-white/80 max-w-3xl">Cortex Database is the single source of truth — a transactional OLTP store, an analytical warehouse, a vector store for AI search, and point-in-time backups, all behind one API.</p>
+      <div class="flex gap-3 mt-4 flex-wrap">
+        <div class="glass rounded-xl p-3 min-w-[140px]">
+          <div class="text-xs text-white/70">Total Records</div>
+          <div class="text-xl font-bold text-white">48.2M</div>
+        </div>
+        <div class="glass rounded-xl p-3 min-w-[140px]">
+          <div class="text-xs text-white/70">Storage Used</div>
+          <div class="text-xl font-bold text-white">1.2 TB</div>
+        </div>
+        <div class="glass rounded-xl p-3 min-w-[140px]">
+          <div class="text-xs text-white/70">Query Latency</div>
+          <div class="text-xl font-bold text-white">12ms</div>
+        </div>
+        <div class="glass rounded-xl p-3 min-w-[140px]">
+          <div class="text-xs text-white/70">Active Connections</div>
+          <div class="text-xl font-bold text-white">248</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="kpi-card card-hover">
+      <div class="flex items-center justify-between">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">QUERIES / SEC</div>
+        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="zap" class="w-4 h-4"></i></div>
+      </div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">3,284</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">+8.2% last hour</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="flex items-center justify-between">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">TABLES</div>
+        <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center"><i data-lucide="table" class="w-4 h-4"></i></div>
+      </div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">142</div>
+      <div class="text-xs text-slate-500 font-semibold mt-1">Across 8 schemas</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="flex items-center justify-between">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">VECTOR EMBEDDINGS</div>
+        <div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="circle-dot" class="w-4 h-4"></i></div>
+      </div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">2.4M</div>
+      <div class="text-xs text-slate-500 font-semibold mt-1">1536 dim</div>
+    </div>
+    <div class="kpi-card card-hover">
+      <div class="flex items-center justify-between">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">LAST BACKUP</div>
+        <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="shield-check" class="w-4 h-4"></i></div>
+      </div>
+      <div class="text-2xl font-extrabold text-slate-900 mt-1">2 min</div>
+      <div class="text-xs text-green-600 font-semibold mt-1">Continuous</div>
+    </div>
+  </section>
+
+  <!-- Service cards -->
+  <section class="mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold text-slate-900">Database Services</h2>
+      <button class="text-xs text-blue-600 font-semibold hover:underline flex items-center gap-1" onclick="location.href='services.html'">
+        View all services <i data-lucide="arrow-right" class="w-3 h-3"></i>
+      </button>
+    </div>
+    <div class="services-grid" id="db-services"></div>
+  </section>
+
+  <!-- Tables list + performance chart -->
+  <section class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+    <!-- Top tables -->
+    <div class="glass-strong rounded-2xl p-6 lg:col-span-2">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="table" class="w-4 h-4 text-blue-600"></i> Top Tables</h3>
+        <button class="text-xs text-blue-600 font-semibold hover:underline">View all →</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-xs text-slate-500 border-b border-slate-100">
+              <th class="py-2 font-semibold">TABLE</th>
+              <th class="py-2 font-semibold">SCHEMA</th>
+              <th class="py-2 font-semibold">ROWS</th>
+              <th class="py-2 font-semibold">SIZE</th>
+              <th class="py-2 font-semibold">HEALTH</th>
+            </tr>
+          </thead>
+          <tbody id="db-tables"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Query latency -->
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-violet-600"></i> Query Latency · 24h</h3>
+      <div style="height:240px"><canvas id="latChart"></canvas></div>
+      <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+        <div class="p-2 rounded-lg bg-blue-50"><div class="text-slate-500">p50</div><div class="font-bold text-slate-900">8ms</div></div>
+        <div class="p-2 rounded-lg bg-indigo-50"><div class="text-slate-500">p95</div><div class="font-bold text-slate-900">24ms</div></div>
+        <div class="p-2 rounded-lg bg-violet-50"><div class="text-slate-500">p99</div><div class="font-bold text-slate-900">68ms</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Backups + Health -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="hard-drive" class="w-4 h-4 text-blue-600"></i> Recent Backups</h3>
+      <div class="space-y-2" id="db-backups"></div>
+    </div>
+    <div class="glass-strong rounded-2xl p-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="heart-pulse" class="w-4 h-4 text-red-500"></i> Cluster Health</h3>
+      <div class="space-y-3">
+        <div>
+          <div class="flex items-center justify-between mb-1 text-sm"><span class="font-semibold">CPU Usage</span><span class="text-slate-600">34%</span></div>
+          <div class="progress"><div class="progress-fill" style="width:34%"></div></div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1 text-sm"><span class="font-semibold">Memory</span><span class="text-slate-600">62%</span></div>
+          <div class="progress"><div class="progress-fill" style="width:62%; background:linear-gradient(90deg,#6366f1,#8b5cf6)"></div></div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1 text-sm"><span class="font-semibold">Disk I/O</span><span class="text-slate-600">48%</span></div>
+          <div class="progress"><div class="progress-fill" style="width:48%; background:linear-gradient(90deg,#06b6d4,#0ea5e9)"></div></div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1 text-sm"><span class="font-semibold">Replication Lag</span><span class="text-slate-600">12ms</span></div>
+          <div class="progress"><div class="progress-fill" style="width:8%; background:linear-gradient(90deg,#10b981,#22c55e)"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // ---- Services ----
+  const dbServices = [
+    { id: "primary",   name: "Cortex Database",  sub: "Transactional OLTP · Postgres",   desc: "Your primary source of truth — ACID transactions, indexes, constraints & triggers.", icon: "database",    color: "blue",   tag: "Primary" },
+    { id: "warehouse", name: "Data Warehouse",    sub: "Analytical OLAP · Synapse",       desc: "Columnar store optimized for BI queries, reports and dashboards at scale.",           icon: "server",      color: "indigo", tag: "Analytics" },
+    { id: "vector",    name: "Vector Store",      sub: "Embeddings · Similarity Search",  desc: "pgvector-backed embeddings for semantic search, RAG and AI recommendations.",         icon: "circle-dot",  color: "violet", tag: "AI" },
+    { id: "backup",    name: "Backup & Restore",  sub: "Point-in-time Recovery",          desc: "Continuous WAL backups with 30-day retention. One-click restore to any second.",      icon: "hard-drive",  color: "sky",    tag: "Resilience" },
+    { id: "query",     name: "Query Console",     sub: "SQL Playground",                  desc: "Run ad-hoc SQL queries with autocomplete, history and result export.",               icon: "terminal",    color: "slate",  tag: "Tools" },
+    { id: "access",    name: "Access Control",    sub: "RBAC · Row-level Security",       desc: "Role-based permissions, row-level security and full audit logs of every query.",     icon: "key-round",   color: "cyan",   tag: "Security" },
+  ];
+
+  document.getElementById("db-services").innerHTML = dbServices.map(s => `
+    <div class="service-card animate-fade-in-up" onclick='CORTEX.openModal("app", ${JSON.stringify({name:s.name, status:"Connected"}).replace(/'/g,"&#39;")})'>
+      <button class="svc-star" onclick="event.stopPropagation(); CORTEX.toast('Starred')"><i data-lucide="star" class="w-4 h-4"></i></button>
+      <div class="svc-icon ${iconBadge(s.color)}"><i data-lucide="${s.icon}" class="w-6 h-6"></i></div>
+      <div class="svc-sub">${s.sub}</div>
+      <div class="svc-title">${s.name}</div>
+      <div class="svc-desc">${s.desc}</div>
+      <div class="svc-footer">
+        <span class="svc-tag">${s.tag}</span>
+        <span class="text-xs text-blue-600 font-semibold flex items-center gap-1">Open service <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+      </div>
+    </div>
+  `).join('');
+
+  // ---- Top Tables ----
+  const tables = [
+    { name: "contacts",        schema: "crm",      rows: "1.2M",  size: "284 MB", health: "Healthy" },
+    { name: "transactions",    schema: "finance",  rows: "4.8M",  size: "1.2 GB", health: "Healthy" },
+    { name: "employees",       schema: "hrm",      rows: "312",   size: "2.1 MB", health: "Healthy" },
+    { name: "journal_entries", schema: "accounts", rows: "284K",  size: "148 MB", health: "Healthy" },
+    { name: "embeddings",      schema: "brain",    rows: "2.4M",  size: "3.8 GB", health: "Indexing" },
+    { name: "activity_logs",   schema: "audit",    rows: "18.2M", size: "2.4 GB", health: "Healthy" },
+  ];
+
+  const healthBadge = { Healthy: "badge-green", Indexing: "badge-yellow", Warning: "badge-red" };
+
+  document.getElementById("db-tables").innerHTML = tables.map(t => `
+    <tr class="border-b border-slate-50 hover:bg-blue-50/40 transition clickable" onclick='CORTEX.openModal("app", ${JSON.stringify({name:t.schema+"."+t.name, status:t.health}).replace(/'/g,"&#39;")})'>
+      <td class="py-3 font-semibold text-slate-900">${t.name}</td>
+      <td class="py-3 text-slate-500">${t.schema}</td>
+      <td class="py-3 text-slate-700">${t.rows}</td>
+      <td class="py-3 text-slate-700">${t.size}</td>
+      <td class="py-3"><span class="badge ${healthBadge[t.health]}">${t.health}</span></td>
+    </tr>
+  `).join('');
+
+  // ---- Backups ----
+  const backups = [
+    { id: "bk-8421", when: "2 min ago",  size: "1.2 GB", type: "Incremental", status: "Complete" },
+    { id: "bk-8420", when: "1 hr ago",   size: "1.2 GB", type: "Incremental", status: "Complete" },
+    { id: "bk-8419", when: "Today 03:00",size: "48 GB",  type: "Full",        status: "Complete" },
+    { id: "bk-8418", when: "Yesterday",  size: "47 GB",  type: "Full",        status: "Complete" },
+  ];
+
+  document.getElementById("db-backups").innerHTML = backups.map(b => `
+    <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:bg-blue-50/40 transition">
+      <div class="w-9 h-9 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="check" class="w-4 h-4"></i></div>
+      <div class="flex-1 min-w-0">
+        <div class="font-semibold text-sm text-slate-900">${b.id} · ${b.type}</div>
+        <div class="text-xs text-slate-500">${b.when} · ${b.size}</div>
+      </div>
+      <button class="btn-outline text-xs !py-1 !px-2" onclick="CORTEX.toast('Restore started')">Restore</button>
+    </div>
+  `).join('');
+
+  // ---- Latency chart ----
+  new Chart(document.getElementById("latChart"), {
+    type: "line",
+    data: {
+      labels: Array.from({length:24}, (_,i) => i+":00"),
+      datasets: [
+        { label: "p50", data: [8,7,8,9,8,7,8,9,10,12,14,12,11,10,9,8,8,9,10,11,10,9,8,8], borderColor: "#3b82f6", backgroundColor: "rgba(59,130,246,.1)", tension: .4, fill: true },
+        { label: "p95", data: [22,20,21,24,22,20,23,25,28,32,36,34,30,28,26,24,24,26,28,30,28,26,24,22], borderColor: "#8b5cf6", backgroundColor: "rgba(139,92,246,.1)", tension: .4, fill: false },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: "#f1f5f9" }, ticks: { font: { size: 9 } } },
+        x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 6 } }
+      }
+    }
+  });
+
+  CORTEX.init("database");
+  lucide.createIcons();
+</script>
+</body>
+</html>

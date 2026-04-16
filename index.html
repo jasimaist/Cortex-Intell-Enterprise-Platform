@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cortex Intell — Executive Cockpit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar-mount"></aside>
+
+<main class="main-area">
+  <div id="topbar-mount"></div>
+
+  <!-- HERO GREETING + KPI -->
+  <section class="mb-6">
+    <div class="flex items-start justify-between gap-6 flex-wrap">
+      <div class="animate-fade-in-up">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-2xl">👋</span>
+          <span class="text-slate-600 font-medium">Good morning, Rania!</span>
+        </div>
+        <h1 class="text-4xl font-extrabold text-slate-900 leading-tight">
+          Command Your Business
+        </h1>
+        <h2 class="text-4xl font-extrabold text-grad mb-2">with Cortex Intell</h2>
+        <p class="text-slate-500">Everything Connected. Everything Intelligent.</p>
+        <div class="flex items-center gap-2 mt-3">
+          <span class="badge badge-blue">⚡ AI-POWERED</span>
+          <span class="badge badge-green">● REAL-TIME</span>
+          <span class="badge badge-purple">🛡 SECURE & TRUSTED</span>
+        </div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 flex-1 min-w-[500px]">
+        <div class="kpi-card card-hover animate-fade-in-up delay-100">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-xxs font-bold text-slate-500 tracking-wider">TOTAL REVENUE</span>
+            <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+              <i data-lucide="dollar-sign" class="w-4 h-4 text-blue-600"></i>
+            </div>
+          </div>
+          <div class="text-2xl font-extrabold text-slate-900">$3.92M</div>
+          <div class="flex items-center gap-1 text-xs mt-1">
+            <i data-lucide="trending-up" class="w-3 h-3 text-green-600"></i>
+            <span class="text-green-600 font-semibold">12.5%</span>
+            <span class="text-slate-400">vs. $3.48M last month</span>
+          </div>
+        </div>
+
+        <div class="kpi-card card-hover animate-fade-in-up delay-200">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-xxs font-bold text-slate-500 tracking-wider">ACTIVE LEADS</span>
+            <div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+              <i data-lucide="users" class="w-4 h-4 text-indigo-600"></i>
+            </div>
+          </div>
+          <div class="text-2xl font-extrabold text-slate-900">247</div>
+          <div class="flex items-center gap-1 text-xs mt-1">
+            <i data-lucide="trending-up" class="w-3 h-3 text-green-600"></i>
+            <span class="text-green-600 font-semibold">8.3%</span>
+            <span class="text-slate-400">32 need attention</span>
+          </div>
+        </div>
+
+        <div class="kpi-card card-hover animate-fade-in-up delay-300">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-xxs font-bold text-slate-500 tracking-wider">CASH POSITION</span>
+            <div class="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
+              <i data-lucide="trending-up" class="w-4 h-4 text-sky-600"></i>
+            </div>
+          </div>
+          <div class="text-2xl font-extrabold text-slate-900">$2.47M</div>
+          <div class="flex items-center gap-1 text-xs mt-1">
+            <i data-lucide="trending-up" class="w-3 h-3 text-green-600"></i>
+            <span class="text-green-600 font-semibold">5.6%</span>
+            <span class="text-slate-400">Forecast Growth</span>
+          </div>
+        </div>
+
+        <div class="kpi-card card-hover animate-fade-in-up delay-400">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-xxs font-bold text-slate-500 tracking-wider">ACTIVE PROJECTS</span>
+            <div class="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
+              <i data-lucide="folder" class="w-4 h-4 text-violet-600"></i>
+            </div>
+          </div>
+          <div class="text-2xl font-extrabold text-slate-900">12</div>
+          <div class="flex items-center gap-1 text-xs mt-1">
+            <span class="badge badge-yellow">⚠ 2 at risk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ECOSYSTEM MODULES + BRAIN -->
+  <section class="mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-xl font-bold text-slate-900">CORTEX INTELL ECOSYSTEM</h2>
+        <p class="text-sm text-slate-500">Seamlessly Connected. Intelligently Orchestrated.</p>
+      </div>
+      <button class="text-sm text-blue-600 font-semibold hover:underline flex items-center gap-1">
+        <i data-lucide="sliders" class="w-4 h-4"></i> Customise Dashboard
+      </button>
+    </div>
+
+    <div class="grid grid-cols-12 gap-5">
+      <!-- Module grid (9 modules in 3x3) -->
+      <div class="col-span-12 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4" id="module-grid"></div>
+
+      <!-- Brain visual -->
+      <div class="col-span-12 lg:col-span-4">
+        <div class="glass-strong rounded-2xl p-6 h-full relative overflow-hidden shadow-blue-lg">
+          <div class="absolute inset-0 bg-grad-soft opacity-40"></div>
+          <div class="relative z-10 h-full flex flex-col">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="brain-circuit" class="w-5 h-5 text-blue-600"></i>
+              <span class="font-bold text-slate-900 text-sm">CORTEX INTELL</span>
+              <span class="text-grad font-extrabold text-sm">BRAIN</span>
+            </div>
+
+            <div class="brain-container flex-1 min-h-[320px]">
+              <div class="brain-ring r3"></div>
+              <div class="brain-ring r2"></div>
+              <div class="brain-ring r1"></div>
+              <div class="brain-core"></div>
+
+              <!-- Orbiting module nodes -->
+              <div class="brain-node" style="top:10%; left:50%; transform:translateX(-50%);"><i data-lucide="users" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="top:22%; right:8%;"><i data-lucide="user-cog" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="top:50%; right:0%;"><i data-lucide="dollar-sign" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="bottom:22%; right:8%;"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="bottom:10%; left:50%; transform:translateX(-50%);"><i data-lucide="bot" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="bottom:22%; left:8%;"><i data-lucide="folder-kanban" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="top:50%; left:0%;"><i data-lucide="share-2" class="w-4 h-4"></i></div>
+              <div class="brain-node" style="top:22%; left:8%;"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+            </div>
+
+            <div class="text-center mt-4">
+              <div class="text-xs font-bold text-slate-700 tracking-wider">ONE BRAIN. ALL MODULES.</div>
+              <div class="text-xs text-grad font-bold">SMARTER DECISIONS.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITY + RECOMMENDATIONS -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <div class="glass-strong rounded-2xl p-6 animate-fade-in-up delay-500">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900">RECENT ACTIVITY</h3>
+        <button class="text-xs text-blue-600 font-semibold hover:underline">View All Activity →</button>
+      </div>
+      <div class="space-y-4" id="activity-list"></div>
+    </div>
+
+    <div class="glass-strong rounded-2xl p-6 animate-fade-in-up delay-600">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4 text-violet-600"></i>
+          AI RECOMMENDATIONS
+        </h3>
+        <button class="text-xs text-blue-600 font-semibold hover:underline">View Insights →</button>
+      </div>
+      <div class="space-y-4" id="reco-list"></div>
+    </div>
+  </section>
+
+  <footer class="text-center text-xs text-slate-400 py-6">
+    v2.4.0 · © 2026 AIST Technologies. All Rights Reserved.
+  </footer>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // ---- render module grid ----
+  const moduleGrid = document.getElementById("module-grid");
+  moduleGrid.innerHTML = CORTEX_DATA.modules.map((m, i) => `
+    <div class="module-card card-hover animate-fade-in-up" style="animation-delay:${i * 0.05}s" onclick="location.href='${m.page}'">
+      <span class="badge-live">${m.status}</span>
+      <div class="w-11 h-11 rounded-xl ${iconBadge(m.color)} flex items-center justify-center mb-3">
+        <i data-lucide="${m.icon}" class="w-5 h-5"></i>
+      </div>
+      <div class="font-bold text-slate-900 text-sm mb-0.5">${m.name}</div>
+      <div class="text-[11px] text-slate-500 mb-2">${m.desc}</div>
+      <div class="text-[13px] font-bold text-slate-900">${m.metric}</div>
+      <div class="text-[11px] text-slate-500 mb-3">${m.sub}</div>
+      ${m.subModules ? `
+        <div class="border-t border-slate-100 pt-2 mt-1 mb-2">
+          <div class="text-[9px] font-bold text-slate-400 tracking-widest mb-1.5">SUB-MODULES</div>
+          <div class="flex flex-wrap gap-1">
+            ${m.subModules.map(s => `<span class="text-[9px] px-1.5 py-0.5 rounded-md bg-slate-50 border border-slate-100 text-slate-600 font-medium">${s}</span>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+      <div class="text-xs font-semibold text-blue-600 flex items-center gap-1 mt-auto">
+        Open Module <i data-lucide="arrow-right" class="w-3 h-3"></i>
+      </div>
+    </div>
+  `).join('');
+
+  // ---- activity ----
+  document.getElementById("activity-list").innerHTML = CORTEX_DATA.activity.map(a => `
+    <div class="flex gap-3">
+      <div class="w-10 h-10 rounded-xl ${iconBadge(a.color)} flex items-center justify-center flex-shrink-0">
+        <i data-lucide="${a.icon}" class="w-4 h-4"></i>
+      </div>
+      <div class="flex-1">
+        <div class="text-sm font-semibold text-slate-800">${a.title}</div>
+        <div class="text-xs text-slate-500">${a.desc}</div>
+      </div>
+      <div class="text-xs text-slate-400">${a.time}</div>
+    </div>
+  `).join('');
+
+  // ---- recommendations ----
+  const recoColor = { yellow: "from-yellow-50 to-orange-50 border-yellow-200", red: "from-red-50 to-pink-50 border-red-200", green: "from-green-50 to-emerald-50 border-green-200" };
+  const recoIcon = { yellow: "trophy", red: "alert-triangle", green: "sparkles" };
+  const recoIconColor = { yellow: "text-yellow-600 bg-yellow-100", red: "text-red-600 bg-red-100", green: "text-green-600 bg-green-100" };
+  document.getElementById("reco-list").innerHTML = CORTEX_DATA.recommendations.map(r => `
+    <div class="p-4 rounded-xl bg-gradient-to-br ${recoColor[r.color]} border">
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-lg ${recoIconColor[r.color]} flex items-center justify-center flex-shrink-0">
+          <i data-lucide="${recoIcon[r.color]}" class="w-4 h-4"></i>
+        </div>
+        <div class="flex-1">
+          <div class="text-[10px] font-bold tracking-wider text-slate-600">${r.priority}</div>
+          <div class="font-bold text-sm text-slate-900">${r.title}</div>
+          <div class="text-xs text-slate-600 mt-1 mb-2">${r.desc}</div>
+          <button class="text-xs font-semibold text-blue-600 hover:underline">${r.cta} →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  CORTEX.init("home");
+  lucide.createIcons();
+</script>
+</body>
+</html>

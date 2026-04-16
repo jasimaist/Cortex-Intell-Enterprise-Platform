@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cortex Intell — Growth Engine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar-mount"></aside>
+
+<main class="main-area">
+  <div id="topbar-mount"></div>
+
+  <!-- Header -->
+  <section class="flex items-start justify-between gap-4 flex-wrap mb-4 animate-fade-in-up">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+        <span>Ecosystem</span>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <span class="text-blue-600 font-semibold">Growth Engine</span>
+      </div>
+      <h1 class="text-3xl font-extrabold text-slate-900">Cortex Intell Growth Engine</h1>
+      <p class="text-slate-500">AI-Powered Revenue Operating System — Social · SEO · Ads · Qualification · Intelligence · Orchestration.</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn-outline" onclick="CORTEX.openAction('scheduler')"><i data-lucide="calendar" class="w-4 h-4"></i> Scheduler</button>
+      <button class="btn-outline" onclick="CORTEX.openAction('ab-tests')"><i data-lucide="beaker" class="w-4 h-4"></i> A/B Tests</button>
+      <button class="btn-primary" onclick="CORTEX.openAction('new-campaign')"><i data-lucide="rocket" class="w-4 h-4"></i> New Campaign</button>
+    </div>
+  </section>
+
+  <!-- Flagship Hero -->
+  <section class="services-hero animate-fade-in-up mb-5">
+    <div class="relative z-10">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="badge badge-blue">⚡ FLAGSHIP PRODUCT</span>
+        <span class="badge badge-purple">6 SUB-MODULES</span>
+      </div>
+      <h2 class="text-3xl font-extrabold mb-2">Cortex Intell Growth Engine</h2>
+      <p class="text-white/80 max-w-3xl">The full AI-powered revenue operating system. We build and continuously optimize an AI-powered growth system that generates leads, filters them, and improves conversion rates over time.</p>
+    </div>
+  </section>
+
+  <!-- TAB NAVIGATION · 6 Sub-Modules -->
+  <nav class="fos-tabs flex-wrap" id="ge-tabs" style="display:none;">
+    <div class="fos-tab active" data-tab="social">
+      <div class="ico bg-pink-100 text-pink-600"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+      <div class="lbl"><span class="t">Social Engine</span><span class="s">Posts · Stories · DMs · Replies</span></div>
+    </div>
+    <div class="fos-tab" data-tab="seo">
+      <div class="ico bg-green-100 text-green-600"><i data-lucide="search" class="w-5 h-5"></i></div>
+      <div class="lbl"><span class="t">SEO & Authority</span><span class="s">Rankings · Blogs · Backlinks</span></div>
+    </div>
+    <div class="fos-tab" data-tab="demand">
+      <div class="ico bg-orange-100 text-orange-600"><i data-lucide="megaphone" class="w-5 h-5"></i></div>
+      <div class="lbl"><span class="t">Demand Engine</span><span class="s">Ads · Funnels · Landing Pages</span></div>
+    </div>
+    <div class="fos-tab" data-tab="qualification">
+      <div class="ico bg-blue-100 text-blue-600"><i data-lucide="filter" class="w-5 h-5"></i></div>
+      <div class="lbl"><span class="t">Qualification Engine</span><span class="s">Lead Scoring · ICP · Routing</span></div>
+    </div>
+    <div class="fos-tab" data-tab="intelligence">
+      <div class="ico bg-indigo-100 text-indigo-600"><i data-lucide="brain" class="w-5 h-5"></i></div>
+      <div class="lbl"><span class="t">Intelligence Hub</span><span class="s">Analytics · Attribution · AI</span></div>
+    </div>
+    <div class="fos-tab" data-tab="orchestration">
+      <div class="ico bg-violet-100 text-violet-600"><i data-lucide="workflow" class="w-5 h-5"></i></div>
+      <div class="lbl"><span class="t">Orchestration Layer</span><span class="s">Workflows · Automation · Rules</span></div>
+    </div>
+  </nav>
+
+  <!-- ============================================= -->
+  <!-- PANEL 1: SOCIAL ENGINE                          -->
+  <!-- ============================================= -->
+  <div class="fos-panel active" id="panel-dashboard">
+
+    <!-- Sub-Module Cards -->
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-5">
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer text-center" onclick="switchGeTab('social')">
+        <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+        <div class="font-bold text-sm text-slate-900">Social</div>
+        <div class="text-xs text-slate-500">Posts & Engagement</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer text-center" onclick="switchGeTab('seo')">
+        <div class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="search" class="w-5 h-5"></i></div>
+        <div class="font-bold text-sm text-slate-900">SEO</div>
+        <div class="text-xs text-slate-500">Rankings & Authority</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer text-center" onclick="switchGeTab('demand')">
+        <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="megaphone" class="w-5 h-5"></i></div>
+        <div class="font-bold text-sm text-slate-900">Demand</div>
+        <div class="text-xs text-slate-500">Ads & Funnels</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer text-center" onclick="switchGeTab('qualification')">
+        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="filter" class="w-5 h-5"></i></div>
+        <div class="font-bold text-sm text-slate-900">Qualification</div>
+        <div class="text-xs text-slate-500">Lead Scoring & ICP</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer text-center" onclick="switchGeTab('intelligence')">
+        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="brain" class="w-5 h-5"></i></div>
+        <div class="font-bold text-sm text-slate-900">Intelligence</div>
+        <div class="text-xs text-slate-500">Analytics & AI</div>
+      </div>
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer text-center" onclick="switchGeTab('orchestration')">
+        <div class="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-2"><i data-lucide="workflow" class="w-5 h-5"></i></div>
+        <div class="font-bold text-sm text-slate-900">Orchestration</div>
+        <div class="text-xs text-slate-500">Workflows & Rules</div>
+      </div>
+    </section>
+
+    <!-- Row 1: Campaign Performance + Channel Mix -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4 text-blue-600"></i> Campaign Performance</h3>
+        <div style="height:280px"><canvas id="dbCampaignChart"></canvas></div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="pie-chart" class="w-4 h-4 text-indigo-600"></i> Channel Mix</h3>
+        <div style="height:280px"><canvas id="dbChannelChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Row 2: Visitor Trend + Lead Conversion -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4 text-violet-600"></i> Visitor Trend</h3>
+        <div style="height:280px"><canvas id="dbVisitorChart"></canvas></div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="bar-chart-2" class="w-4 h-4 text-blue-600"></i> Lead Conversion Funnel</h3>
+        <div style="height:280px"><canvas id="dbConversionChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- KPI Stats -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">ACTIVE CAMPAIGNS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">24</div>
+        <div class="text-xs text-blue-600 font-semibold mt-1"><i data-lucide="rocket" class="w-3 h-3 inline"></i> Running across channels</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">WEBSITE VISITORS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">38.2K</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+24.8% this month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">TOTAL LEADS</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">2,480</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+18% vs last month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">CONVERSION RATE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">18.7%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+2.4% improving</div>
+      </div>
+    </section>
+
+    <!-- Recent Activity Feed -->
+    <section class="glass-strong rounded-2xl p-6 mb-5">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-indigo-600"></i> Recent Activity</h3>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100">
+          <i data-lucide="rocket" class="w-4 h-4 text-blue-500"></i>
+          <div class="flex-1 text-sm"><span class="font-semibold">Campaign Launched</span> — "AI Enterprise Q2" campaign went live across Google & LinkedIn</div>
+          <div class="text-xs text-slate-400">12 min ago</div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100">
+          <i data-lucide="search" class="w-4 h-4 text-green-500"></i>
+          <div class="flex-1 text-sm"><span class="font-semibold">SEO Milestone</span> — "AI ERP software" keyword reached #1 position on Google</div>
+          <div class="text-xs text-slate-400">1 hr ago</div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100">
+          <i data-lucide="filter" class="w-4 h-4 text-violet-500"></i>
+          <div class="flex-1 text-sm"><span class="font-semibold">Lead Qualified</span> — 42 new MQLs scored and routed to sales team</div>
+          <div class="text-xs text-slate-400">2 hr ago</div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100">
+          <i data-lucide="share-2" class="w-4 h-4 text-pink-500"></i>
+          <div class="flex-1 text-sm"><span class="font-semibold">Social Viral</span> — LinkedIn post reached 28K impressions with 6.2% engagement</div>
+          <div class="text-xs text-slate-400">3 hr ago</div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100">
+          <i data-lucide="brain" class="w-4 h-4 text-indigo-500"></i>
+          <div class="flex-1 text-sm"><span class="font-semibold">AI Insight</span> — Predicted 22% conversion lift by shifting budget to organic channels</div>
+          <div class="text-xs text-slate-400">5 hr ago</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Growth Insights Banner -->
+    <section class="glass-blue rounded-2xl p-5 flex items-center gap-4 relative overflow-hidden mb-6">
+      <div class="absolute inset-0 opacity-20"><div class="absolute w-48 h-48 bg-white rounded-full blur-3xl -top-20 -right-20 animate-blob"></div></div>
+      <div class="relative z-10 w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center"><i data-lucide="sparkles" class="w-6 h-6 text-white"></i></div>
+      <div class="relative z-10 flex-1">
+        <div class="font-bold text-white">AI Growth Insights</div>
+        <div class="text-white/90 text-sm">Your growth engine is performing 34% above industry benchmarks. AI recommends increasing LinkedIn budget by 20% and launching a webinar series for enterprise leads to maximize Q2 pipeline.</div>
+      </div>
+      <button class="relative z-10 bg-white text-blue-600 px-4 py-2 rounded-xl font-semibold text-sm hover:scale-105 transition">View Recommendations</button>
+    </section>
+
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PANEL 1: SOCIAL ENGINE                          -->
+  <!-- ============================================= -->
+  <div class="fos-panel" id="panel-social">
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">TOTAL FOLLOWERS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">124.8K</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+8.2K this month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">ENGAGEMENT RATE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">4.8%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+1.2% vs avg</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">POSTS THIS MONTH</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">86</div>
+        <div class="text-xs text-slate-500 font-semibold mt-1">AI-generated: 62</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">SOCIAL LEADS</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">342</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+28% conversion</div>
+      </div>
+    </section>
+
+    <!-- AI Creative Studio -->
+    <section class="glass-blue rounded-2xl p-5 flex items-center gap-4 relative overflow-hidden mb-6">
+      <div class="absolute inset-0 opacity-20"><div class="absolute w-48 h-48 bg-white rounded-full blur-3xl -top-20 -right-20 animate-blob"></div></div>
+      <div class="relative z-10 w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center"><i data-lucide="wand-2" class="w-6 h-6 text-white"></i></div>
+      <div class="relative z-10 flex-1">
+        <div class="font-bold text-white">AI Creative Studio</div>
+        <div class="text-white/90 text-sm">Draft ad copy, generate social posts, create carousels, write captions, and auto-schedule across all platforms.</div>
+      </div>
+      <button class="relative z-10 bg-white text-blue-600 px-4 py-2 rounded-xl font-semibold text-sm hover:scale-105 transition">Create Content →</button>
+    </section>
+
+    <!-- Platform Performance -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div class="glass-strong rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3"><i data-lucide="linkedin" class="w-5 h-5 text-blue-700"></i><span class="font-bold text-sm">LinkedIn</span></div>
+        <div class="text-xl font-extrabold text-slate-900">42.3K</div>
+        <div class="text-xs text-slate-500">followers</div>
+        <div class="mt-2 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-slate-500">Impressions</span><span class="font-bold">284K</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Engagement</span><span class="font-bold text-green-600">6.2%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Leads</span><span class="font-bold">142</span></div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3"><i data-lucide="instagram" class="w-5 h-5 text-pink-600"></i><span class="font-bold text-sm">Instagram</span></div>
+        <div class="text-xl font-extrabold text-slate-900">38.1K</div>
+        <div class="text-xs text-slate-500">followers</div>
+        <div class="mt-2 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-slate-500">Reach</span><span class="font-bold">156K</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Engagement</span><span class="font-bold text-green-600">5.4%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Leads</span><span class="font-bold">98</span></div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3"><i data-lucide="twitter" class="w-5 h-5 text-sky-500"></i><span class="font-bold text-sm">X (Twitter)</span></div>
+        <div class="text-xl font-extrabold text-slate-900">28.6K</div>
+        <div class="text-xs text-slate-500">followers</div>
+        <div class="mt-2 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-slate-500">Impressions</span><span class="font-bold">412K</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Engagement</span><span class="font-bold text-green-600">3.8%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Leads</span><span class="font-bold">68</span></div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3"><i data-lucide="youtube" class="w-5 h-5 text-red-600"></i><span class="font-bold text-sm">YouTube</span></div>
+        <div class="text-xl font-extrabold text-slate-900">15.8K</div>
+        <div class="text-xs text-slate-500">subscribers</div>
+        <div class="mt-2 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-slate-500">Views (MTD)</span><span class="font-bold">89K</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Watch Time</span><span class="font-bold text-green-600">4.2 min</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Leads</span><span class="font-bold">34</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Scheduler + Content Calendar -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i> Social Scheduler</h3>
+        <div class="grid grid-cols-7 gap-1 mb-4">
+          <div class="text-center text-xs text-slate-400">M</div><div class="text-center text-xs text-slate-400">T</div><div class="text-center text-xs text-slate-400">W</div><div class="text-center text-xs text-slate-400">T</div><div class="text-center text-xs text-slate-400">F</div><div class="text-center text-xs text-slate-400">S</div><div class="text-center text-xs text-slate-400">S</div>
+          <div class="aspect-square rounded-lg bg-blue-100 flex items-center justify-center text-xs font-bold">14</div>
+          <div class="aspect-square rounded-lg bg-blue-500 text-white flex items-center justify-center text-xs font-bold">15</div>
+          <div class="aspect-square rounded-lg bg-indigo-200 flex items-center justify-center text-xs font-bold">16</div>
+          <div class="aspect-square rounded-lg bg-blue-100 flex items-center justify-center text-xs font-bold">17</div>
+          <div class="aspect-square rounded-lg bg-violet-300 flex items-center justify-center text-xs font-bold">18</div>
+          <div class="aspect-square rounded-lg bg-slate-50 flex items-center justify-center text-xs">19</div>
+          <div class="aspect-square rounded-lg bg-slate-50 flex items-center justify-center text-xs">20</div>
+        </div>
+        <div class="space-y-2 text-xs">
+          <div class="p-2 bg-blue-50 rounded-lg flex items-center gap-2"><i data-lucide="instagram" class="w-3 h-3 text-pink-600"></i><span class="flex-1">Product launch reel — 10 AM</span><span class="text-slate-400">Today</span></div>
+          <div class="p-2 bg-indigo-50 rounded-lg flex items-center gap-2"><i data-lucide="linkedin" class="w-3 h-3 text-blue-700"></i><span class="flex-1">Thought leadership post</span><span class="text-slate-400">Tomorrow</span></div>
+          <div class="p-2 bg-violet-50 rounded-lg flex items-center gap-2"><i data-lucide="twitter" class="w-3 h-3 text-sky-500"></i><span class="flex-1">AI trends thread (8 posts)</span><span class="text-slate-400">Fri</span></div>
+          <div class="p-2 bg-red-50 rounded-lg flex items-center gap-2"><i data-lucide="youtube" class="w-3 h-3 text-red-600"></i><span class="flex-1">Product demo video</span><span class="text-slate-400">Sat</span></div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Engagement Trend</h3>
+        <div style="height:280px"><canvas id="socialEngChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Trending Topics -->
+    <section class="glass-strong rounded-2xl p-6 mb-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="flame" class="w-4 h-4 text-orange-500"></i> Trending Topics</h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div class="flex items-center gap-3 p-3 bg-red-50 rounded-xl"><span class="text-lg">🔥</span><div class="flex-1"><div class="text-sm font-semibold">#AI4Business</div><div class="text-xs text-slate-500">84.2K · +412%</div></div><span class="badge badge-red">HOT</span></div>
+        <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-xl"><span class="text-lg">🚀</span><div class="flex-1"><div class="text-sm font-semibold">#AutomationTools</div><div class="text-xs text-slate-500">56.8K · +248%</div></div><span class="badge badge-blue">Rising</span></div>
+        <div class="flex items-center gap-3 p-3 bg-indigo-50 rounded-xl"><span class="text-lg">💡</span><div class="flex-1"><div class="text-sm font-semibold">#SaaS2026</div><div class="text-xs text-slate-500">42.1K · +185%</div></div><span class="badge badge-blue">Rising</span></div>
+        <div class="flex items-center gap-3 p-3 bg-violet-50 rounded-xl"><span class="text-lg">⚡</span><div class="flex-1"><div class="text-sm font-semibold">#CortexIntell</div><div class="text-xs text-slate-500">18.4K · +624%</div></div><span class="badge badge-purple">Brand</span></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PANEL 2: SEO & AUTHORITY ENGINE                 -->
+  <!-- ============================================= -->
+  <div class="fos-panel" id="panel-seo">
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">ORGANIC TRAFFIC</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">16.1K</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+34% vs last month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">DOMAIN AUTHORITY</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">62</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+4 this quarter</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">RANKED KEYWORDS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">1,842</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">248 in top 10</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">BACKLINKS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">3,420</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+186 this month</div>
+      </div>
+    </section>
+
+    <!-- SEO Score Visual -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Overall SEO Score</h3>
+        <div class="flex items-center justify-center py-4">
+          <div class="relative w-40 h-40">
+            <svg class="w-full h-full -rotate-90">
+              <circle cx="80" cy="80" r="70" fill="none" stroke="#e2e8f0" stroke-width="12"/>
+              <circle cx="80" cy="80" r="70" fill="none" stroke="url(#seoGrad)" stroke-width="12" stroke-dasharray="440" stroke-dashoffset="88" stroke-linecap="round"/>
+              <defs><linearGradient id="seoGrad"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <div class="text-4xl font-extrabold text-grad">80</div>
+              <div class="text-xs text-slate-500">Excellent</div>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between"><span class="text-slate-500">Technical SEO</span><span class="font-bold">94%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Content Quality</span><span class="font-bold">88%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Backlinks</span><span class="font-bold">72%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Page Speed</span><span class="font-bold">68%</span></div>
+        </div>
+      </div>
+
+      <div class="glass-strong rounded-2xl p-6 lg:col-span-2">
+        <h3 class="font-bold text-slate-900 mb-4">Organic Traffic Trend</h3>
+        <div style="height:280px"><canvas id="seoTrafficChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Top Keywords -->
+    <section class="glass-strong rounded-2xl overflow-hidden mb-6">
+      <div class="p-5 flex items-center justify-between border-b border-slate-100">
+        <h3 class="font-bold text-slate-900">Top Ranking Keywords</h3>
+        <button class="btn-outline text-xs">View All Keywords</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead><tr><th>Keyword</th><th>Position</th><th>Volume</th><th>Traffic</th><th>Trend</th><th>Difficulty</th></tr></thead>
+          <tbody>
+            <tr><td class="font-semibold">AI ERP software</td><td><span class="font-bold text-green-600">#1</span></td><td>12,400</td><td class="font-bold">4,200</td><td><span class="text-green-600 font-semibold">↑ 3</span></td><td><span class="badge badge-red">Hard</span></td></tr>
+            <tr><td class="font-semibold">intelligent business automation</td><td><span class="font-bold text-green-600">#2</span></td><td>8,800</td><td class="font-bold">2,640</td><td><span class="text-green-600 font-semibold">↑ 5</span></td><td><span class="badge badge-yellow">Medium</span></td></tr>
+            <tr><td class="font-semibold">AI CRM platform</td><td><span class="font-bold text-blue-600">#4</span></td><td>14,200</td><td class="font-bold">2,130</td><td><span class="text-green-600 font-semibold">↑ 2</span></td><td><span class="badge badge-red">Hard</span></td></tr>
+            <tr><td class="font-semibold">growth engine marketing</td><td><span class="font-bold text-blue-600">#3</span></td><td>6,200</td><td class="font-bold">1,860</td><td><span class="text-slate-400 font-semibold">→ 0</span></td><td><span class="badge badge-green">Easy</span></td></tr>
+            <tr><td class="font-semibold">cortex intell</td><td><span class="font-bold text-green-600">#1</span></td><td>4,800</td><td class="font-bold">4,320</td><td><span class="text-green-600 font-semibold">↑ 0</span></td><td><span class="badge badge-green">Brand</span></td></tr>
+            <tr><td class="font-semibold">AI financial management</td><td><span class="font-bold text-blue-600">#6</span></td><td>9,400</td><td class="font-bold">1,128</td><td><span class="text-green-600 font-semibold">↑ 8</span></td><td><span class="badge badge-yellow">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Blog Performance + Backlinks -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">AI Blog Performance</h3>
+        <div class="space-y-3">
+          <div class="p-3 bg-green-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">AI in Enterprise 2026</span><span class="badge badge-green">#1</span></div>
+            <div class="text-xs text-slate-500">8,420 views · 342 shares · 4.2 min read time</div>
+          </div>
+          <div class="p-3 bg-blue-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">How AI CRM Boosts Revenue</span><span class="badge badge-blue">#3</span></div>
+            <div class="text-xs text-slate-500">5,180 views · 218 shares · 6.1 min read time</div>
+          </div>
+          <div class="p-3 bg-indigo-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Growth Automation Playbook</span><span class="badge badge-blue">#5</span></div>
+            <div class="text-xs text-slate-500">3,940 views · 186 shares · 8.4 min read time</div>
+          </div>
+          <div class="p-3 bg-violet-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Finance OS Deep Dive</span><span class="badge badge-blue">#7</span></div>
+            <div class="text-xs text-slate-500">2,860 views · 124 shares · 5.8 min read time</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Backlink Sources</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
+            <div class="avatar avatar-sm bg-blue-200 text-blue-700">TC</div>
+            <div class="flex-1"><div class="font-semibold text-sm">TechCrunch</div><div class="text-xs text-slate-500">DA 94 · 12 backlinks</div></div>
+            <span class="badge badge-green">DoFollow</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-indigo-50 rounded-xl">
+            <div class="avatar avatar-sm bg-indigo-200 text-indigo-700">FS</div>
+            <div class="flex-1"><div class="font-semibold text-sm">Forbes</div><div class="text-xs text-slate-500">DA 96 · 8 backlinks</div></div>
+            <span class="badge badge-green">DoFollow</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-violet-50 rounded-xl">
+            <div class="avatar avatar-sm bg-violet-200 text-violet-700">PH</div>
+            <div class="flex-1"><div class="font-semibold text-sm">Product Hunt</div><div class="text-xs text-slate-500">DA 91 · 6 backlinks</div></div>
+            <span class="badge badge-green">DoFollow</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
+            <div class="avatar avatar-sm bg-green-200 text-green-700">G2</div>
+            <div class="flex-1"><div class="font-semibold text-sm">G2 Reviews</div><div class="text-xs text-slate-500">DA 88 · 4 backlinks</div></div>
+            <span class="badge badge-green">DoFollow</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PANEL 3: DEMAND ENGINE (ADS & FUNNELS)          -->
+  <!-- ============================================= -->
+  <div class="fos-panel" id="panel-demand">
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">ACTIVE CAMPAIGNS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">24</div>
+        <div class="text-xs text-slate-500 font-semibold mt-1">$77K total spend</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">AVG. ROAS</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">3.4x</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+0.8x vs last Q</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">COST PER LEAD</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">$24</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">-18% improving</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">LANDING PAGE CVR</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">8.4%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">Above 5% benchmark</div>
+      </div>
+    </section>
+
+    <!-- Campaigns Table -->
+    <section class="glass-strong rounded-2xl overflow-hidden mb-6">
+      <div class="p-5 flex items-center justify-between border-b border-slate-100">
+        <h3 class="font-bold text-slate-900">Campaigns Dashboard</h3>
+        <div class="flex gap-2">
+          <button class="btn-outline text-xs">All</button>
+          <button class="btn-outline text-xs">Active</button>
+          <button class="btn-outline text-xs">Paused</button>
+          <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> New Campaign</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead><tr><th>Campaign</th><th>Channel</th><th>Status</th><th>Spend</th><th>Reach</th><th>ROAS</th><th>Actions</th></tr></thead>
+          <tbody id="campaign-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Conversion Funnel + Ad Spend by Channel -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Conversion Funnel</h3>
+        <div class="space-y-3">
+          <div class="p-3 bg-gradient-to-r from-blue-500 to-blue-400 rounded-xl text-white"><div class="flex justify-between text-sm font-bold"><span>Impressions</span><span>1.2M</span></div></div>
+          <div class="p-3 bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-xl text-white ml-4" style="width:85%"><div class="flex justify-between text-sm font-bold"><span>Clicks</span><span>38,200</span></div></div>
+          <div class="p-3 bg-gradient-to-r from-violet-500 to-violet-400 rounded-xl text-white ml-8" style="width:65%"><div class="flex justify-between text-sm font-bold"><span>Landing Page Views</span><span>24,800</span></div></div>
+          <div class="p-3 bg-gradient-to-r from-sky-500 to-sky-400 rounded-xl text-white ml-14" style="width:40%"><div class="flex justify-between text-sm font-bold"><span>Form Fills</span><span>3,120</span></div></div>
+          <div class="p-3 bg-gradient-to-r from-cyan-500 to-cyan-400 rounded-xl text-white ml-20" style="width:25%"><div class="flex justify-between text-sm font-bold"><span>Conversions</span><span>1,247</span></div></div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Ad Spend by Channel</h3>
+        <div style="height:280px"><canvas id="adSpendChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Landing Pages -->
+    <section class="glass-strong rounded-2xl p-6 mb-6">
+      <h3 class="font-bold text-slate-900 mb-4">Landing Page Performance</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl border border-green-100 bg-gradient-to-br from-green-50 to-white">
+          <div class="font-bold text-sm">Product Demo Page</div>
+          <div class="text-2xl font-extrabold text-slate-900 mt-2">12.4%</div>
+          <div class="text-xs text-slate-500">CVR · 8,420 visitors · 1,044 signups</div>
+          <div class="badge badge-green mt-2">Top performer</div>
+        </div>
+        <div class="p-4 rounded-xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white">
+          <div class="font-bold text-sm">Free Trial Landing</div>
+          <div class="text-2xl font-extrabold text-slate-900 mt-2">8.2%</div>
+          <div class="text-xs text-slate-500">CVR · 12,800 visitors · 1,050 signups</div>
+          <div class="badge badge-blue mt-2">High volume</div>
+        </div>
+        <div class="p-4 rounded-xl border border-yellow-100 bg-gradient-to-br from-yellow-50 to-white">
+          <div class="font-bold text-sm">Webinar Registration</div>
+          <div class="text-2xl font-extrabold text-slate-900 mt-2">4.6%</div>
+          <div class="text-xs text-slate-500">CVR · 3,580 visitors · 165 signups</div>
+          <div class="badge badge-yellow mt-2">Needs optimization</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PANEL 4: QUALIFICATION ENGINE                   -->
+  <!-- ============================================= -->
+  <div class="fos-panel" id="panel-qualification">
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">LEADS SCORED</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">1,847</div>
+        <div class="text-xs text-slate-500 font-semibold mt-1">This month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">MQL → SQL RATE</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">38.7%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+6% vs target</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">HOT LEADS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">142</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">Ready for sales</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">AVG SCORE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">64</div>
+        <div class="text-xs text-slate-500 font-semibold mt-1">Out of 100</div>
+      </div>
+    </section>
+
+    <!-- Lead Scoring Rules + Distribution -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="target" class="w-4 h-4 text-blue-600"></i> AI Lead Scoring Model</h3>
+        <div class="space-y-3">
+          <div class="p-3 bg-blue-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Company Size > 100</span><span class="font-bold text-blue-600">+20 pts</span></div>
+            <div class="text-xs text-slate-500">Signals enterprise intent</div>
+          </div>
+          <div class="p-3 bg-indigo-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Visited Pricing 3+ times</span><span class="font-bold text-indigo-600">+25 pts</span></div>
+            <div class="text-xs text-slate-500">High purchase intent</div>
+          </div>
+          <div class="p-3 bg-violet-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Downloaded Whitepaper</span><span class="font-bold text-violet-600">+15 pts</span></div>
+            <div class="text-xs text-slate-500">Engaged with content</div>
+          </div>
+          <div class="p-3 bg-green-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Requested Demo</span><span class="font-bold text-green-600">+30 pts</span></div>
+            <div class="text-xs text-slate-500">Strongest buy signal</div>
+          </div>
+          <div class="p-3 bg-red-50 rounded-xl">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">No Activity 30+ days</span><span class="font-bold text-red-600">-15 pts</span></div>
+            <div class="text-xs text-slate-500">Decaying intent</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Lead Score Distribution</h3>
+        <div style="height:280px"><canvas id="leadScoreChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ICP Match + Lead Routing -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="user-check" class="w-4 h-4 text-green-600"></i> ICP (Ideal Customer Profile) Match</h3>
+        <div class="space-y-3">
+          <div class="p-3 bg-green-50 rounded-xl flex items-center gap-3">
+            <div class="text-2xl font-extrabold text-green-600">A+</div>
+            <div class="flex-1"><div class="font-semibold text-sm">Enterprise SaaS (500+ emp)</div><div class="text-xs text-slate-500">284 leads · 42% conversion rate</div></div>
+            <span class="font-bold text-green-600">$180K ACV</span>
+          </div>
+          <div class="p-3 bg-blue-50 rounded-xl flex items-center gap-3">
+            <div class="text-2xl font-extrabold text-blue-600">A</div>
+            <div class="flex-1"><div class="font-semibold text-sm">Mid-Market Tech (100-499)</div><div class="text-xs text-slate-500">412 leads · 28% conversion rate</div></div>
+            <span class="font-bold text-blue-600">$65K ACV</span>
+          </div>
+          <div class="p-3 bg-indigo-50 rounded-xl flex items-center gap-3">
+            <div class="text-2xl font-extrabold text-indigo-600">B</div>
+            <div class="flex-1"><div class="font-semibold text-sm">Growth Startups (20-99)</div><div class="text-xs text-slate-500">628 leads · 18% conversion rate</div></div>
+            <span class="font-bold text-indigo-600">$24K ACV</span>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl flex items-center gap-3">
+            <div class="text-2xl font-extrabold text-slate-400">C</div>
+            <div class="flex-1"><div class="font-semibold text-sm">Small Business (&lt;20)</div><div class="text-xs text-slate-500">523 leads · 8% conversion rate</div></div>
+            <span class="font-bold text-slate-400">$6K ACV</span>
+          </div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="route" class="w-4 h-4 text-violet-600"></i> Lead Routing Rules</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm">Score > 80 → Direct to Sales</div><div class="text-xs text-slate-500">Auto-assign to SDR team · 5 min SLA</div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="mail" class="w-5 h-5"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm">Score 50-79 → Nurture Sequence</div><div class="text-xs text-slate-500">7-email drip campaign · 14 days</div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-10 h-10 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="brain" class="w-5 h-5"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm">Score < 50 → AI Re-engage</div><div class="text-xs text-slate-500">Retargeting ads + content suggestions</div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><i data-lucide="globe" class="w-5 h-5"></i></div>
+            <div class="flex-1"><div class="font-semibold text-sm">Enterprise ICP → Account Exec</div><div class="text-xs text-slate-500">Direct AE assignment · priority queue</div></div>
+            <span class="badge badge-green">Active</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PANEL 5: INTELLIGENCE HUB                       -->
+  <!-- ============================================= -->
+  <div class="fos-panel" id="panel-intelligence">
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">WEBSITE VISITORS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">38.2K</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+24.8% this month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">OVERALL CVR</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">3.26%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+0.4% improving</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">CUSTOMER LTV</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">$48.2K</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+12% YoY</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">CAC</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">$2,840</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">LTV:CAC = 17:1</div>
+      </div>
+    </section>
+
+    <!-- Traffic + Attribution -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6 lg:col-span-2">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-slate-900">Website Traffic & Conversions</h3>
+          <div class="flex gap-2">
+            <button class="text-xs px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold">7D</button>
+            <button class="text-xs px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 font-semibold">30D</button>
+            <button class="text-xs px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 font-semibold">90D</button>
+          </div>
+        </div>
+        <div style="height:280px"><canvas id="trafficChart"></canvas></div>
+        <div class="grid grid-cols-4 gap-3 mt-4 pt-4 border-t border-slate-100">
+          <div><div class="text-xs text-slate-500">Organic</div><div class="font-bold text-slate-900">42%</div></div>
+          <div><div class="text-xs text-slate-500">Paid Ads</div><div class="font-bold text-slate-900">28%</div></div>
+          <div><div class="text-xs text-slate-500">Social</div><div class="font-bold text-slate-900">18%</div></div>
+          <div><div class="text-xs text-slate-500">Referral</div><div class="font-bold text-slate-900">12%</div></div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Channel Attribution</h3>
+        <div style="height:260px"><canvas id="attributionChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- A/B Tests + AI Audience Segments -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="beaker" class="w-4 h-4 text-blue-600"></i> A/B Test Results</h3>
+        <div class="space-y-3">
+          <div class="p-3 rounded-xl border border-blue-100">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Hero CTA Button</span><span class="badge badge-green">Winner</span></div>
+            <div class="text-xs text-slate-500 mb-2">Variant B: +24% conversion · 95% confidence</div>
+            <div class="flex gap-1"><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-blue-400" style="width:48%"></div></div><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-blue-600" style="width:72%"></div></div></div>
+          </div>
+          <div class="p-3 rounded-xl border border-blue-100">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Pricing Page Layout</span><span class="badge badge-yellow">Running</span></div>
+            <div class="text-xs text-slate-500 mb-2">Day 5/14 · 68% confidence</div>
+            <div class="flex gap-1"><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-indigo-400" style="width:42%"></div></div><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-indigo-600" style="width:51%"></div></div></div>
+          </div>
+          <div class="p-3 rounded-xl border border-blue-100">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Email Subject Lines</span><span class="badge badge-green">Winner</span></div>
+            <div class="text-xs text-slate-500 mb-2">"You're missing out..." +38% open rate</div>
+            <div class="flex gap-1"><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-violet-400" style="width:38%"></div></div><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-violet-600" style="width:76%"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="users-2" class="w-4 h-4 text-blue-600"></i> AI Audience Segments</h3>
+        <div class="space-y-3">
+          <div class="p-3 bg-blue-50 rounded-xl"><div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">High-Intent Buyers</span><span class="text-xs text-blue-600 font-bold">2,847</span></div><div class="text-xs text-slate-500">Visited pricing 3+ times · Score > 75</div></div>
+          <div class="p-3 bg-indigo-50 rounded-xl"><div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Enterprise Leads</span><span class="text-xs text-indigo-600 font-bold">892</span></div><div class="text-xs text-slate-500">Company size 500+ · Decision makers</div></div>
+          <div class="p-3 bg-violet-50 rounded-xl"><div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Re-engagement</span><span class="text-xs text-violet-600 font-bold">1,542</span></div><div class="text-xs text-slate-500">Inactive 30+ days · Previously engaged</div></div>
+          <div class="p-3 bg-sky-50 rounded-xl"><div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">Content Subscribers</span><span class="text-xs text-sky-600 font-bold">4,210</span></div><div class="text-xs text-slate-500">Newsletter opens 80%+ · Blog readers</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Insights -->
+    <section class="glass-strong rounded-2xl p-6 mb-6">
+      <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-violet-600"></i> AI Growth Insights</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200">
+          <div class="text-[10px] font-bold tracking-wider text-green-700 mb-1">OPPORTUNITY</div>
+          <div class="font-bold text-sm text-slate-900">LinkedIn outperforming by 3x</div>
+          <div class="text-xs text-slate-600 mt-1">Shift 20% budget from Twitter → LinkedIn. Estimated +$142K pipeline.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200">
+          <div class="text-[10px] font-bold tracking-wider text-yellow-700 mb-1">WARNING</div>
+          <div class="font-bold text-sm text-slate-900">Google CPC rising 18%</div>
+          <div class="text-xs text-slate-600 mt-1">Consider shifting to SEO content. Organic leads cost 68% less than paid.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200">
+          <div class="text-[10px] font-bold tracking-wider text-blue-700 mb-1">RECOMMENDATION</div>
+          <div class="font-bold text-sm text-slate-900">Launch webinar series</div>
+          <div class="text-xs text-slate-600 mt-1">Webinar leads convert at 28% vs 12% for ads. AI suggests "AI in Enterprise" topic.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- PANEL 6: ORCHESTRATION LAYER                    -->
+  <!-- ============================================= -->
+  <div class="fos-panel" id="panel-orchestration">
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">ACTIVE WORKFLOWS</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">18</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">All running</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">AUTOMATIONS RUN (MTD)</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">12,480</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">+34% vs last month</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">TIME SAVED</div>
+        <div class="text-2xl font-extrabold text-grad mt-1">248 hrs</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">~$24.8K value</div>
+      </div>
+      <div class="kpi-card card-hover">
+        <div class="text-xxs font-bold text-slate-500 tracking-wider">SUCCESS RATE</div>
+        <div class="text-2xl font-extrabold text-slate-900 mt-1">99.2%</div>
+        <div class="text-xs text-green-600 font-semibold mt-1">0 failures today</div>
+      </div>
+    </section>
+
+    <!-- Active Workflows -->
+    <section class="glass-strong rounded-2xl p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="workflow" class="w-4 h-4 text-violet-600"></i> Active Workflows</h3>
+        <button class="btn-primary text-xs"><i data-lucide="plus" class="w-3 h-3"></i> New Workflow</button>
+      </div>
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 p-4 rounded-xl border border-green-100 bg-gradient-to-r from-green-50 to-white">
+          <div class="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">Lead → Score → Route → Nurture</div>
+            <div class="text-xs text-slate-500">New lead received → AI scoring → Route to SDR or nurture sequence → Follow-up</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-bold text-green-600">4,280 runs</div>
+            <div class="text-xs text-slate-400">99.8% success</div>
+          </div>
+          <span class="badge badge-green">Active</span>
+        </div>
+        <div class="flex items-center gap-3 p-4 rounded-xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white">
+          <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="mail" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">Welcome Email → Drip Campaign</div>
+            <div class="text-xs text-slate-500">Signup → Welcome email → 7-day drip → Re-score → Handoff to sales</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-bold text-blue-600">2,840 runs</div>
+            <div class="text-xs text-slate-400">98.4% success</div>
+          </div>
+          <span class="badge badge-green">Active</span>
+        </div>
+        <div class="flex items-center gap-3 p-4 rounded-xl border border-violet-100 bg-gradient-to-r from-violet-50 to-white">
+          <div class="w-10 h-10 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">Social Auto-Post → Engage → Report</div>
+            <div class="text-xs text-slate-500">AI generates content → Schedule → Auto-reply to comments → Weekly analytics</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-bold text-violet-600">1,860 runs</div>
+            <div class="text-xs text-slate-400">99.1% success</div>
+          </div>
+          <span class="badge badge-green">Active</span>
+        </div>
+        <div class="flex items-center gap-3 p-4 rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50 to-white">
+          <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center"><i data-lucide="repeat" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">Churn Risk → Re-engage → Upsell</div>
+            <div class="text-xs text-slate-500">Detect churn signals → Trigger re-engagement → Offer upgrade discount</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-bold text-indigo-600">980 runs</div>
+            <div class="text-xs text-slate-400">97.2% success</div>
+          </div>
+          <span class="badge badge-green">Active</span>
+        </div>
+        <div class="flex items-center gap-3 p-4 rounded-xl border border-sky-100 bg-gradient-to-r from-sky-50 to-white">
+          <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center"><i data-lucide="megaphone" class="w-5 h-5"></i></div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">Campaign Launch → Monitor → Optimize</div>
+            <div class="text-xs text-slate-500">Launch ad campaign → Monitor performance hourly → Auto-adjust bids & budgets</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-bold text-sky-600">2,520 runs</div>
+            <div class="text-xs text-slate-400">99.6% success</div>
+          </div>
+          <span class="badge badge-green">Active</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Automation Rules + Integration Map -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4 text-blue-600"></i> Automation Rules</h3>
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+            <div class="flex-1 text-sm"><span class="font-semibold">IF</span> lead score > 80 <span class="font-semibold">THEN</span> notify sales on Slack</div>
+            <span class="badge badge-green">On</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+            <div class="flex-1 text-sm"><span class="font-semibold">IF</span> email bounced <span class="font-semibold">THEN</span> remove + flag in CRM</div>
+            <span class="badge badge-green">On</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+            <div class="flex-1 text-sm"><span class="font-semibold">IF</span> ad ROAS < 2x <span class="font-semibold">THEN</span> pause + alert marketing</div>
+            <span class="badge badge-green">On</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+            <div class="flex-1 text-sm"><span class="font-semibold">IF</span> blog post published <span class="font-semibold">THEN</span> auto-share on all social</div>
+            <span class="badge badge-green">On</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-xl">
+            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+            <div class="flex-1 text-sm"><span class="font-semibold">IF</span> deal closed <span class="font-semibold">THEN</span> trigger onboarding workflow</div>
+            <span class="badge badge-green">On</span>
+          </div>
+        </div>
+      </div>
+      <div class="glass-strong rounded-2xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="plug" class="w-4 h-4 text-indigo-600"></i> Connected Systems</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 bg-blue-50 rounded-xl text-center"><div class="text-sm font-bold text-blue-700">CRM 360</div><div class="text-xs text-slate-500">Bi-directional sync</div><div class="w-2 h-2 rounded-full bg-green-500 mx-auto mt-2"></div></div>
+          <div class="p-3 bg-indigo-50 rounded-xl text-center"><div class="text-sm font-bold text-indigo-700">HRM</div><div class="text-xs text-slate-500">Team data sync</div><div class="w-2 h-2 rounded-full bg-green-500 mx-auto mt-2"></div></div>
+          <div class="p-3 bg-violet-50 rounded-xl text-center"><div class="text-sm font-bold text-violet-700">Finance OS</div><div class="text-xs text-slate-500">Revenue tracking</div><div class="w-2 h-2 rounded-full bg-green-500 mx-auto mt-2"></div></div>
+          <div class="p-3 bg-sky-50 rounded-xl text-center"><div class="text-sm font-bold text-sky-700">Analytics</div><div class="text-xs text-slate-500">Data pipeline</div><div class="w-2 h-2 rounded-full bg-green-500 mx-auto mt-2"></div></div>
+          <div class="p-3 bg-green-50 rounded-xl text-center"><div class="text-sm font-bold text-green-700">WhatsApp</div><div class="text-xs text-slate-500">Messaging API</div><div class="w-2 h-2 rounded-full bg-green-500 mx-auto mt-2"></div></div>
+          <div class="p-3 bg-orange-50 rounded-xl text-center"><div class="text-sm font-bold text-orange-700">Email</div><div class="text-xs text-slate-500">SMTP + Tracking</div><div class="w-2 h-2 rounded-full bg-green-500 mx-auto mt-2"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Execution Log -->
+    <section class="glass-strong rounded-2xl p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4 text-blue-600"></i> Recent Execution Log</h3>
+        <button class="btn-outline text-xs">View Full Log</button>
+      </div>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i><div class="flex-1 text-sm"><span class="font-semibold">Lead Scoring</span> — Scored 42 new leads · avg score 68</div><div class="text-xs text-slate-400">2 min ago</div></div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i><div class="flex-1 text-sm"><span class="font-semibold">Social Auto-Post</span> — Published LinkedIn + Twitter posts</div><div class="text-xs text-slate-400">18 min ago</div></div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i><div class="flex-1 text-sm"><span class="font-semibold">Email Drip</span> — Sent nurture email #3 to 284 contacts</div><div class="text-xs text-slate-400">1 hr ago</div></div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i><div class="flex-1 text-sm"><span class="font-semibold">Ad Optimizer</span> — Adjusted bids on 8 campaigns · saved $420</div><div class="text-xs text-slate-400">2 hr ago</div></div>
+        <div class="flex items-center gap-3 p-3 rounded-xl border border-yellow-100 bg-yellow-50"><i data-lucide="alert-circle" class="w-4 h-4 text-yellow-500"></i><div class="flex-1 text-sm"><span class="font-semibold">Churn Detection</span> — Flagged 3 at-risk accounts for review</div><div class="text-xs text-slate-400">3 hr ago</div></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="text-center text-xs text-slate-400 py-6">v2.4.0 · © 2026 AIST Technologies</footer>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // ====== TAB SWITCHER ======
+  let _chartRendered = {};
+
+  function switchGeTab(tabId) {
+    document.querySelectorAll('.fos-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tabId).classList.add('active');
+    if (tabId === 'dashboard') renderGeDashboardCharts();
+    renderCharts(tabId);
+    lucide.createIcons();
+  }
+
+  document.querySelectorAll('#ge-tabs .fos-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchGeTab(tab.dataset.tab));
+  });
+
+  // ====== CHART RENDERING ======
+  function renderCharts(tabId) {
+    if (tabId === 'social' && !_chartRendered.social) {
+      _chartRendered.social = true;
+      new Chart(document.getElementById("socialEngChart"), {
+        type: "line",
+        data: {
+          labels: ["W1","W2","W3","W4","W5","W6","W7","W8"],
+          datasets: [
+            { label: "Engagement Rate", data: [3.2, 3.8, 4.1, 3.9, 4.4, 4.6, 4.5, 4.8], borderColor: "#ec4899", backgroundColor: "rgba(236,72,153,.1)", tension: .4, fill: true },
+            { label: "Followers (K)", data: [108, 110, 113, 115, 118, 120, 122, 124.8], borderColor: "#3b82f6", backgroundColor: "rgba(59,130,246,.1)", tension: .4, fill: true, yAxisID: 'y1' },
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } }, scales: { y: { grid: { color: "#f1f5f9" }, ticks: { callback: v => v + '%' } }, y1: { position: 'right', grid: { display: false }, ticks: { callback: v => v + 'K' } }, x: { grid: { display: false } } } }
+      });
+    }
+
+    if (tabId === 'seo' && !_chartRendered.seo) {
+      _chartRendered.seo = true;
+      new Chart(document.getElementById("seoTrafficChart"), {
+        type: "line",
+        data: {
+          labels: ["Oct","Nov","Dec","Jan","Feb","Mar","Apr"],
+          datasets: [
+            { label: "Organic Traffic", data: [6200, 7400, 8100, 9800, 11200, 13400, 16100], borderColor: "#10b981", backgroundColor: "rgba(16,185,129,.1)", tension: .4, fill: true },
+            { label: "Ranked Keywords", data: [980, 1120, 1240, 1380, 1520, 1680, 1842], borderColor: "#3b82f6", backgroundColor: "transparent", tension: .4, yAxisID: 'y1' },
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } }, scales: { y: { grid: { color: "#f1f5f9" } }, y1: { position: 'right', grid: { display: false } }, x: { grid: { display: false } } } }
+      });
+    }
+
+    if (tabId === 'demand' && !_chartRendered.demand) {
+      _chartRendered.demand = true;
+      new Chart(document.getElementById("adSpendChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["Google Ads","LinkedIn","Meta / Instagram","Twitter / X","YouTube"],
+          datasets: [{ data: [32, 22, 18, 8, 5], backgroundColor: ["#3b82f6","#0077B5","#E4405F","#1DA1F2","#FF0000"], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { boxWidth: 10, font: { size: 11 } } } }, cutout: "65%" }
+      });
+    }
+
+    if (tabId === 'qualification' && !_chartRendered.qualification) {
+      _chartRendered.qualification = true;
+      new Chart(document.getElementById("leadScoreChart"), {
+        type: "bar",
+        data: {
+          labels: ["0-20","21-40","41-60","61-80","81-100"],
+          datasets: [{ label: "Leads", data: [180, 340, 520, 480, 327], backgroundColor: ["#94a3b8","#f59e0b","#3b82f6","#6366f1","#10b981"], borderRadius: 6 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: "#f1f5f9" } }, x: { grid: { display: false } } } }
+      });
+    }
+
+    if (tabId === 'intelligence' && !_chartRendered.intelligence) {
+      _chartRendered.intelligence = true;
+      new Chart(document.getElementById("trafficChart"), {
+        type: "line",
+        data: {
+          labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+          datasets: [
+            { label: "Sessions", data: [4200, 5800, 6200, 5400, 7200, 4800, 4600], borderColor: "#3b82f6", backgroundColor: "rgba(59,130,246,.1)", tension: .4, fill: true },
+            { label: "Conversions", data: [140, 180, 220, 190, 280, 160, 150], borderColor: "#8b5cf6", backgroundColor: "rgba(139,92,246,.1)", tension: .4, fill: true },
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } }, scales: { y: { grid: { color: "#f1f5f9" } }, x: { grid: { display: false } } } }
+      });
+
+      new Chart(document.getElementById("attributionChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["Organic","Paid Search","Social","Referral","Direct","Email"],
+          datasets: [{ data: [42, 18, 15, 10, 8, 7], backgroundColor: ["#10b981","#3b82f6","#ec4899","#f59e0b","#6366f1","#38bdf8"], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { boxWidth: 10, font: { size: 10 } } } }, cutout: "60%" }
+      });
+    }
+  }
+
+  // ====== Campaigns Table (Demand Engine) ======
+  const cStatus = { "Active": "badge-green", "Paused": "badge-yellow", "Completed": "badge-blue" };
+  document.getElementById("campaign-body").innerHTML = CORTEX_DATA.campaigns.map(c => `
+    <tr class="clickable" onclick='CORTEX.openModal("campaign", ${JSON.stringify({name:c.name, channel:c.channel, status:c.status, budget:c.spend, spent:c.spend, leads:c.reach, roas:c.roi}).replace(/'/g,"&#39;")})'>
+      <td class="font-semibold">${c.name}</td>
+      <td class="text-slate-500">${c.channel}</td>
+      <td><span class="badge ${cStatus[c.status]}">${c.status}</span></td>
+      <td class="font-bold">${c.spend}</td>
+      <td>${c.reach}</td>
+      <td><span class="font-bold text-green-600">${c.roi}</span></td>
+      <td>
+        <button class="p-1.5 hover:bg-blue-50 rounded-lg" onclick="event.stopPropagation()"><i data-lucide="bar-chart-2" class="w-4 h-4 text-blue-600"></i></button>
+        <button class="p-1.5 hover:bg-blue-50 rounded-lg" onclick="event.stopPropagation()"><i data-lucide="more-horizontal" class="w-4 h-4 text-slate-400"></i></button>
+      </td>
+    </tr>
+  `).join('');
+
+  // ====== DASHBOARD CHARTS ======
+  function renderGeDashboardCharts() {
+    if (_chartRendered.dashboard) return;
+    _chartRendered.dashboard = true;
+
+    // Campaign Performance Line Chart
+    new Chart(document.getElementById("dbCampaignChart"), {
+      type: "line",
+      data: {
+        labels: ["Nov","Dec","Jan","Feb","Mar","Apr"],
+        datasets: [
+          { label: "Impressions (K)", data: [120, 140, 160, 180, 200, 220], borderColor: "#3b82f6", backgroundColor: "rgba(59,130,246,.1)", tension: .4, fill: true },
+          { label: "Clicks (K)", data: [8.2, 9.1, 10.4, 11.8, 13.2, 14.5], borderColor: "#8b5cf6", backgroundColor: "rgba(139,92,246,.1)", tension: .4, fill: true, yAxisID: 'y1' }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } }, scales: { y: { grid: { color: "#f1f5f9" }, ticks: { callback: v => v + 'K' } }, y1: { position: 'right', grid: { display: false }, ticks: { callback: v => v + 'K' } }, x: { grid: { display: false } } } }
+    });
+
+    // Channel Mix Doughnut
+    new Chart(document.getElementById("dbChannelChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["Organic 35%","Paid 28%","Social 22%","Email 10%","Referral 5%"],
+        datasets: [{ data: [35, 28, 22, 10, 5], backgroundColor: ["#10b981","#3b82f6","#ec4899","#f59e0b","#6366f1"], borderWidth: 0 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { boxWidth: 10, font: { size: 11 } } } }, cutout: "65%" }
+    });
+
+    // Visitor Trend Line Chart
+    new Chart(document.getElementById("dbVisitorChart"), {
+      type: "line",
+      data: {
+        labels: ["Nov","Dec","Jan","Feb","Mar","Apr"],
+        datasets: [
+          { label: "Visitors (K)", data: [28, 30, 32, 34, 36, 38.2], borderColor: "#6366f1", backgroundColor: "rgba(99,102,241,.1)", tension: .4, fill: true }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } }, scales: { y: { grid: { color: "#f1f5f9" }, ticks: { callback: v => v + 'K' } }, x: { grid: { display: false } } } }
+    });
+
+    // Lead Conversion Bar Chart
+    new Chart(document.getElementById("dbConversionChart"), {
+      type: "bar",
+      data: {
+        labels: ["Visitor to Lead","Lead to MQL","MQL to SQL","SQL to Opp"],
+        datasets: [{ label: "Conversion %", data: [20, 36, 40, 50], backgroundColor: ["#3b82f6","#6366f1","#8b5cf6","#10b981"], borderRadius: 6 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: "#f1f5f9" }, ticks: { callback: v => v + '%' }, max: 60 }, x: { grid: { display: false } } } }
+    });
+  }
+
+  // ====== INIT ======
+  renderGeDashboardCharts();
+  renderCharts('social');
+  CORTEX.init("growth");
+  lucide.createIcons();
+</script>
+</body>
+</html>
