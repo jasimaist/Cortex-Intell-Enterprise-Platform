@@ -6,7 +6,7 @@ import './index.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter basename="/Cortex-Intell-Enterprise-Platform">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </StrictMode>,
